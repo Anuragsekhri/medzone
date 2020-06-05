@@ -1,0 +1,49 @@
+<button   class="btn btn-link pull-right" (click) ="close()">
+  <mat-icon>clear</mat-icon>
+</button>
+
+    <div class="card-header card-header-danger">
+        <h4 class="card-title">Add Doctor </h4>
+    </div>
+    <div class="card-body table-responsive">
+        <form >
+          
+            <mat-form-field >
+              <input matInput type="text" name="name" placeholder="Enter Name" [(ngModel)] = "name">
+            </mat-form-field>
+
+            <mat-form-field >
+              <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "email">
+            </mat-form-field>
+
+          
+          <mat-form-field >
+            <input matInput type="text" name="phone" placeholder="Enter Phone" [(ngModel)] = "phone">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Select City</mat-label>
+            <mat-select name = "cityId" [(ngModel)] = "cityId">
+              <mat-option *ngFor  ="let city of cities" [value] ="city.cityId">
+                {{city.cityName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field >
+            <input matInput type="text" name="address" placeholder="Enter address" [(ngModel)] = "address">
+          </mat-form-field>
+
+          
+           
+            <button mat-raised-button type="submit" (click) ="adddoctor()"
+            style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);"
+            class="btn  pull-right">Add Doctor</button>
+            <div class="clearfix"></div>
+
+            <mat-spinner *ngIf ="loading"></mat-spinner>
+        </form>
+    </div>
+
+             
+  

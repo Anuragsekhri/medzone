@@ -1,0 +1,33 @@
+
+    
+    <button   class="btn btn-link pull-right" (click) ="close()">
+        <mat-icon>clear</mat-icon>
+      </button>
+      <div class="card-header " >
+
+          <h4 class="card-title">Add City</h4>
+          
+      </div>
+
+      <div class="card-body table-responsive">
+
+        <mat-form-field>
+            <mat-label>Select State</mat-label>
+            <mat-select  name = "state"  [(ngModel)] = "state" (ngModelChange) = "call()">
+              <mat-option *ngFor="let state of states" [value]="state" >
+                {{state}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-form-field>
+        <mat-label>Select City</mat-label>
+        <mat-select name ="city" [(ngModel)] = "city">
+          <mat-option *ngFor="let city of cities" [value]="city">
+            {{city}}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+      <button  type ="reset" class="btn  pull-right" (click) ="add()" style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);">Add City</button>
+
+</div>
