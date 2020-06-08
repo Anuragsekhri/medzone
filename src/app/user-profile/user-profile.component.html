@@ -2,26 +2,26 @@
   <mat-icon>clear</mat-icon>
 </button>
 
-    <div class="card-header card-header-danger">
-        <h4 class="card-title">Add Doctor </h4>
-    </div>
-    <div class="card-body table-responsive">
+   <h4 mat-dialog-title> Add Doctor</h4>
+    <mat-dialog-content class="mat-typography">
         <form >
-          
-            <mat-form-field >
-              <input matInput type="text" name="name" placeholder="Enter Name" [(ngModel)] = "name">
-            </mat-form-field>
+          <div class="row">
+          <mat-form-field class="col" >
+            <input matInput type="text" name="name" placeholder="Enter Name" [(ngModel)] = "name">
+          </mat-form-field>
 
-            <mat-form-field >
-              <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "email">
-            </mat-form-field>
+          <mat-form-field class="col" >
+            <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "email">
+          </mat-form-field>
 
-          
-          <mat-form-field >
+          </div>
+
+         <div class="row">
+          <mat-form-field class="col" >
             <input matInput type="text" name="phone" placeholder="Enter Phone" [(ngModel)] = "phone">
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="col">
             <mat-label>Select City</mat-label>
             <mat-select name = "cityId" [(ngModel)] = "cityId">
               <mat-option *ngFor  ="let city of cities" [value] ="city.cityId">
@@ -29,12 +29,38 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+         </div>
+
+
+          <mat-form-field >
+            <mat-label>Select Category</mat-label>
+            <mat-select name="cat" [(ngModel)] ="cat">
+              <mat-option *ngFor  ="let cat of categories" [value] ="cat">
+                {{cat.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+         <!-- <mat-form-field >
+          <input matInput type="text" placeholder="Certificaes">
+         </mat-form-field> -->
+          
+         <mat-form-field >
+          <mat-label>Select Qualifications</mat-label>
+          <mat-select multiple name = "qual" [(ngModel)] ="qual">
+            <mat-option *ngFor  ="let add of qualifications" [value] ="add">
+              {{add.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
           <mat-form-field >
             <input matInput type="text" name="address" placeholder="Enter address" [(ngModel)] = "address">
           </mat-form-field>
 
           
+            <!-- change to adddoctor at end -->
            
             <button mat-raised-button type="submit" (click) ="adddoctor()"
             style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);"
@@ -43,7 +69,7 @@
 
             <mat-spinner *ngIf ="loading"></mat-spinner>
         </form>
-    </div>
+    </mat-dialog-content>
 
              
   

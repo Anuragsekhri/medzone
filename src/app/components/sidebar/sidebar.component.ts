@@ -11,7 +11,9 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
     { path: '/addcity', title: 'City',  icon:'person', class: '' },
     { path: '/adddoctorcategory', title: 'Category',  icon:'notifications', class: '' },
+    { path: '/addqualifications', title: 'Qualifications',  icon:'notifications', class: '' },
     { path: '/user-profile', title: 'Doctor',  icon:'person', class: '' },
+    {path: '/show-users', title: 'Patients',  icon:'person', class: '' },
     
 ];
 

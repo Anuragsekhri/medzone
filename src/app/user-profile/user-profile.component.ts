@@ -8,7 +8,14 @@ import { Observable, of } from 'rxjs';
 
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
 
+
+class Qualification
+{
+  name : string;
+  qualificationHashCode : string;
+}
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -27,6 +34,12 @@ export class UserProfileComponent implements OnInit {
 
   cities : CityModel[];
 
+  qualifications : Qualification[];
+  categories : DoctorCategoryModel[];
+
+  qual : Qualification[];
+  cat : DoctorCategoryModel;
+
   constructor(private afs : AngularFirestore  , private snackbar : MatSnackBar ,
     private functions : AngularFireFunctions, private dialog : MatDialog,
     private http: HttpClient
@@ -37,10 +50,10 @@ export class UserProfileComponent implements OnInit {
       this.dialog.closeAll();
     }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cities =[];
 
-    this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).snapshotChanges().subscribe(
+  await  this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).snapshotChanges().subscribe(
       val =>{
         this.cities =[];
         val.forEach( a => {
@@ -51,6 +64,31 @@ export class UserProfileComponent implements OnInit {
         })
       }
     )
+
+    await  this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).snapshotChanges().subscribe(
+      val =>{
+        this.categories =[];
+        val.forEach( a => {
+          const item : any = a.payload.doc.data();
+          var obj = new DoctorCategoryModel();
+          obj = item;
+          this.categories.push(obj);
+        })
+      }
+    )
+
+    await  this.afs.collection(util.main).doc(util.main).collection('qualifications-'+util.main).snapshotChanges().subscribe(
+      val =>{
+        this.qualifications =[];
+        val.forEach( a => {
+          const item : any = a.payload.doc.data();
+          var obj = new Qualification();
+          obj = item;
+          this.qualifications.push(obj);
+        })
+      }
+    )
+    
 
   }
 
@@ -125,8 +163,16 @@ export class UserProfileComponent implements OnInit {
     console.log(this.cityId);
     
     
-    if (this.name === "") {
+    if (this.name == undefined || this.name == "") {
       this.snackbar.open("Invalid User Name" ,"",{
+        duration:2000
+      });
+      this.loading = false;
+      return;
+    }
+    if(this.cat == undefined || this.qual == undefined || this.qual.length <= 0)
+    {
+      this.snackbar.open("Either Qualifications or Category , one is empty" ,"",{
         duration:2000
       });
       this.loading = false;
@@ -211,6 +257,8 @@ export class UserProfileComponent implements OnInit {
             'active' : true,
             'address' : this.address,
             'doctorId' : authId,
+            'qualifications' : this.qual,
+            'category' : this.cat,
             'mobile' : this.phone
           }
         )

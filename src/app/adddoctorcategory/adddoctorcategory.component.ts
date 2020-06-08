@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as util from '../util';
 import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AddcategorymodalComponent } from 'app/addcategorymodal/addcategorymodal.component';
+import { config } from 'rxjs';
 @Component({
   selector: 'app-adddoctorcategory',
   templateUrl: './adddoctorcategory.component.html',
@@ -9,7 +12,7 @@ import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
 })
 export class AdddoctorcategoryComponent implements OnInit {
 
-  constructor(private afs : AngularFirestore) { }
+  constructor(private afs : AngularFirestore , private dilaog : MatDialog) { }
 
   added : DoctorCategoryModel[];
   cat : string;
@@ -31,18 +34,16 @@ export class AdddoctorcategoryComponent implements OnInit {
 
   addcategory()
   {
-    if(this.cat.length >= 2)
-    {
-      var id = this.afs.createId();
-      this.afs.collection(util.main).doc(util.main).collection('doctorCategory-' +util.main).doc(id).set(
-        {
-          'dcId' : id,
-          'name' : this.cat
-        }
-        
-      )
-      this.cat = "";
+    this.dilaog.open(AddcategorymodalComponent);
+  }
+
+  edit(obj : DoctorCategoryModel)
+  {
+    var config = new MatDialogConfig();
+    config.data ={
+      'obj' : obj
     }
+    this.dilaog.open(AddcategorymodalComponent, config);
   }
 
 }

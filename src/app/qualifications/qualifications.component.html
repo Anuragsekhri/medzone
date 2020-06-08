@@ -5,11 +5,8 @@
             <div class="card-header ">
                 <!-- <h4 class="card-title">Cities </h4> -->
 
-                <!-- <mat-form-field>
-                    <input matInput type="text" name ="cat" [(ngModel)] ="cat" placeholder="Enter Category">
-                </mat-form-field> -->
-                <button mat-raised-buuton class="btn  pull-right" (click) ="addcategory()"
-                style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);">Add Category
+                <button mat-raised-buuton class="btn  pull-right" (click) ="addqualification()"
+                style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);">Add Qualification
                     <mat-icon>add</mat-icon></button> 
                
                 
@@ -18,12 +15,12 @@
                 <table class="table table-hover">
                     <thead class="text-">
                         <th> S No</th>                         
-                        <th> Category Name</th>
+                        <th> Qualification</th>
                         <th> Edit </th>
                         <!-- <th> Delete</th> -->
                     </thead>
                     <tbody>
-                        <tr *ngFor = "let add of added , index as i">
+                        <tr *ngFor = "let add of qualifications , index as i">
                             <td>{{i+1}}</td>
                             <td>
                                 {{add.name}}
@@ -33,6 +30,7 @@
                                     <mat-icon>edit</mat-icon>
                                 </button>
                             </td>
+                           
                            
                             
                         </tr>

@@ -19,6 +19,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdddoctorcategoryComponent } from 'app/adddoctorcategory/adddoctorcategory.component';
 import { AdddrlistComponent } from 'app/adddrlist/adddrlist.component';
+import { ShowUsersComponent } from 'app/show-users/show-users.component';
+import { QualificationsComponent } from 'app/qualifications/qualifications.component';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { AdddrlistComponent } from 'app/adddrlist/adddrlist.component';
   declarations: [
     DashboardComponent,
     //UserProfileComponent,
+    QualificationsComponent,
     AddCityComponent,
+    ShowUsersComponent,
     AdddrlistComponent,
     AdddoctorcategoryComponent,
    

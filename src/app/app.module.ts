@@ -27,6 +27,11 @@ import { AuthService } from './auth/auth.service';
 import { ComponentsModule } from './components/components.module';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ShowUsersComponent } from './show-users/show-users.component';
+import { QualificationsComponent } from './qualifications/qualifications.component';
+import { QualificationmodalComponent } from './qualificationmodal/qualificationmodal.component';
+import { AddcategorymodalComponent } from './addcategorymodal/addcategorymodal.component';
+import { AdddoctorcategoryComponent } from './adddoctorcategory/adddoctorcategory.component';
 
 
 
@@ -65,13 +70,16 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     AdminLayoutComponent,
     AddcitymodalComponent,
     AuthComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    QualificationmodalComponent,
+    AddcategorymodalComponent,
+   // ShowUsersComponent
     //AdddrlistComponent,
    
     
 
   ],
-  entryComponents:[ AddcitymodalComponent , UserProfileComponent],
+  entryComponents:[ AddcitymodalComponent , UserProfileComponent , QualificationmodalComponent , AddcategorymodalComponent],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })

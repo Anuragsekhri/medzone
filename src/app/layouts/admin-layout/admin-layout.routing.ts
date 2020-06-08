@@ -5,6 +5,8 @@ import { AddCityComponent } from 'app/add-city/add-city.component';
 import { AuthGuard } from 'app/auth/auth-guard.service';
 import { AdddoctorcategoryComponent } from 'app/adddoctorcategory/adddoctorcategory.component';
 import { AdddrlistComponent } from 'app/adddrlist/adddrlist.component';
+import { ShowUsersComponent } from 'app/show-users/show-users.component';
+import { QualificationsComponent } from 'app/qualifications/qualifications.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -13,6 +15,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent , canActivate:[AuthGuard] },
     { path: 'addcity',      component: AddCityComponent },
     { path: 'adddoctorcategory',      component: AdddoctorcategoryComponent , canActivate :[AuthGuard]},
-    { path: 'user-profile',   component: AdddrlistComponent , canActivate : [AuthGuard] },
+    { path: 'addqualifications',      component: QualificationsComponent },
+    { path: 'user-profile',   component: AdddrlistComponent  },
+    { path: 'show-users',   component: ShowUsersComponent , canActivate : [AuthGuard] },
    
 ];
