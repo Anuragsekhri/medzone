@@ -9,6 +9,9 @@ import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
+import { DoctorModel } from 'app/Classes/doctor-model';
+import { Experience } from 'app/Classes/Experience';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 
 class Qualification
@@ -40,11 +43,38 @@ export class UserProfileComponent implements OnInit {
   qual : Qualification[];
   cat : DoctorCategoryModel;
 
+  experinces : Experience[];
+
+  productForm: FormGroup;
+
   constructor(private afs : AngularFirestore  , private snackbar : MatSnackBar ,
     private functions : AngularFireFunctions, private dialog : MatDialog,
-    private http: HttpClient
-    ) { }
-
+    private http: HttpClient , private fb : FormBuilder
+    ) {
+      this.productForm = this.fb.group({
+        experiences: this.fb.array([]) ,
+      });
+     }
+    
+     experiences() : FormArray {
+      return this.productForm.get("experiences") as FormArray
+    }
+     
+    newExperience(): FormGroup {
+      return this.fb.group({
+        name: "",
+        startDate : new Date(),
+        endDate :  new Date()
+      })
+    }
+     
+    addQuantity() {
+      this.experiences().push(this.newExperience());
+    }
+     
+    removeQuantity(i:number) {
+      this.experiences().removeAt(i);
+    }
     close()
     {
       this.dialog.closeAll();
@@ -178,6 +208,14 @@ export class UserProfileComponent implements OnInit {
       this.loading = false;
       return;
     }
+    if(this.qual == undefined || this.qual.length <= 0)
+    {
+      this.snackbar.open("Minimum one qualification needs to be selected" ,"",{
+        duration:2000
+      });
+      this.loading = false;
+      return;
+    }
     if(this.cityId == undefined || this.cityId.length <=1)
     {
       this.snackbar.open("City required" ,"",{
@@ -259,6 +297,7 @@ export class UserProfileComponent implements OnInit {
             'doctorId' : authId,
             'qualifications' : this.qual,
             'category' : this.cat,
+            'workExperience' : this.productForm.value['experiences'],
             'mobile' : this.phone
           }
         )
@@ -279,5 +318,15 @@ export class UserProfileComponent implements OnInit {
     });
 
   }
+
+  adddoc()
+  {
+   
+    this.experinces = this.productForm.value['experiences'];
+    console.log(this.experinces);
+
+    
+  }
+    
 
 }

@@ -55,6 +55,93 @@
           </mat-select>
         </mat-form-field>
 
+        <!-- <div class="row">
+          
+          <h4 class="col">ADD Work Experince</h4>
+          <div class="col"></div>
+
+          <button mat-mini-fab style="color: #EAD2EF;" (click) ="addexp()">
+            <mat-icon>plus_one</mat-icon>
+          </button>
+        </div>
+
+        <div class="row" *ngFor  = "let exp of experinces; index as i">
+          
+          <mat-form-field class="col" >
+            <mat-label class="col">Add Organization </mat-label>
+            <input class="col" matInput type  = "text"  
+            name="name_{{i}}"/>
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Choose Start Date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker> 
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Choose End Date</mat-label>
+            <input matInput [matDatepicker]="picker2">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker> 
+          </mat-form-field>
+          <button mat-icon-button color="primary" (click) = "delete(exp , i)" class="col">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div> -->
+
+        <form [formGroup]="productForm" >
+    
+        
+          <table class="table table-bordered" formArrayName="experiences">
+            <tr>
+              <th colspan="3">Work Experience</th>
+              <th>
+                <button  mat-button color="primary"  (click)="addQuantity()">
+                  <mat-icon>add</mat-icon>
+                </button>
+               </th>
+            </tr>
+            <tr *ngFor="let quantity of experiences().controls; let i=index" [formGroupName]="i">
+              <td>
+                 
+                  <mat-form-field >
+                    <mat-label >Add Organization </mat-label>
+                    <input matInput type  = "text"  formControlName="name" class="form-control"
+                    />
+                  </mat-form-field>
+                 
+              </td>
+              <td>
+                <mat-form-field >
+                  <mat-label>Choose Start Date</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="startDate" class="form-control">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker> 
+                </mat-form-field>
+                 
+              </td>
+              <td>
+                <mat-form-field >
+                  <mat-label>Choose End Date</mat-label>
+                  <input matInput [matDatepicker]="picker2" formControlName="endDate" class="form-control">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker> 
+                </mat-form-field>
+                 
+              </td>
+              <td>
+                  <button mat-button (click)="removeQuantity(i)"  style="color: red;" >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+              </td>
+            </tr>
+          </table>
+         
+         
+          
+        </form>
+       
+
           <mat-form-field >
             <input matInput type="text" name="address" placeholder="Enter address" [(ngModel)] = "address">
           </mat-form-field>

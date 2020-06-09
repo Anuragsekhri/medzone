@@ -1,8 +1,6 @@
-class Qualification
-{
-    name : string;
-    qualificationHashCode : string;
-}
+import { Experience } from "./Experience";
+import { Qualification } from "./Qualification";
+
 export class DoctorModel {
     doctorId  : string;    // auth se return hogyi 
 
@@ -16,9 +14,8 @@ export class DoctorModel {
 
     category : string;
     qualifications : Qualification[];
-    workExperience : string[];
 
-    currentSponsor : {}  // in map put sponsor name and its duaration
+    workExperience : Experience[];
 
 
     // authId te doctorId same rkhni hai -- yes
