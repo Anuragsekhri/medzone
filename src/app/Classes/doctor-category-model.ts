@@ -1,5 +1,5 @@
 export class DoctorCategoryModel {
 
-    dcId : string;
+    categoryId : string;
     name : string;
 }

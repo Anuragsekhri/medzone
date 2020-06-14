@@ -23,8 +23,8 @@
 
           <mat-form-field class="col">
             <mat-label>Select City</mat-label>
-            <mat-select name = "cityId" [(ngModel)] = "cityId">
-              <mat-option *ngFor  ="let city of cities" [value] ="city.cityId">
+            <mat-select name = "cityId" [(ngModel)] = "city">
+              <mat-option *ngFor  ="let city of cities" [value] ="city">
                 {{city.cityName}}
               </mat-option>
             </mat-select>
@@ -45,6 +45,34 @@
          <!-- <mat-form-field >
           <input matInput type="text" placeholder="Certificaes">
          </mat-form-field> -->
+
+         <div class="row">
+          <mat-form-field class="col" >
+            <mat-label>Choose Sponsor</mat-label>
+            <mat-select name="sponsor" [(ngModel)] ="sponsor">
+              <mat-option *ngFor  ="let sponsor of sponsors" [value] ="sponsor">
+                {{sponsor.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col">
+            <mat-label>Choose Start Date</mat-label>
+
+            
+            <input matInput [matDatepicker]="picker2" name = "sposnorStart" [(ngModel)] ="sponsorStartDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker> 
+          </mat-form-field>
+
+          <mat-form-field class="col">
+            <mat-label>Choose Start Date</mat-label>
+            <input matInput [matDatepicker]="picker3" name = "sposnorStart" [(ngModel)] ="sponsorEndDate">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker> 
+          </mat-form-field>
+
+        </div>
           
          <mat-form-field >
           <mat-label>Select Qualifications</mat-label>
@@ -55,40 +83,7 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- <div class="row">
-          
-          <h4 class="col">ADD Work Experince</h4>
-          <div class="col"></div>
-
-          <button mat-mini-fab style="color: #EAD2EF;" (click) ="addexp()">
-            <mat-icon>plus_one</mat-icon>
-          </button>
-        </div>
-
-        <div class="row" *ngFor  = "let exp of experinces; index as i">
-          
-          <mat-form-field class="col" >
-            <mat-label class="col">Add Organization </mat-label>
-            <input class="col" matInput type  = "text"  
-            name="name_{{i}}"/>
-          </mat-form-field>
-          <mat-form-field class="col">
-            <mat-label>Choose Start Date</mat-label>
-            <input matInput [matDatepicker]="picker">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker> 
-          </mat-form-field>
-          <mat-form-field class="col">
-            <mat-label>Choose End Date</mat-label>
-            <input matInput [matDatepicker]="picker2">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker> 
-          </mat-form-field>
-          <button mat-icon-button color="primary" (click) = "delete(exp , i)" class="col">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div> -->
-
+       
         <form [formGroup]="productForm" >
     
         
@@ -140,6 +135,8 @@
          
           
         </form>
+
+       
        
 
           <mat-form-field >

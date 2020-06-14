@@ -18,7 +18,7 @@ export class AddcategorymodalComponent implements OnInit {
     if(data != undefined)
     {
       this.cat = data.obj.name;
-      this.hash = data.obj.dcId;
+      this.hash = data.obj.categoryId;
     }
    }
 
@@ -32,7 +32,7 @@ export class AddcategorymodalComponent implements OnInit {
       var id  = this.afs.createId();
      await this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).doc(id)
       .set({
-        'dcId' : id,
+        'categoryId' : id,
         'name' : this.cat
       })
 

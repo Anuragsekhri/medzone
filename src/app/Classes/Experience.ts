@@ -1,5 +1,5 @@
 export class Experience {
-    Name: string ;
+    name: string ;
     startDate: Date;
     endDate: Date;
 }

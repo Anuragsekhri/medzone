@@ -21,6 +21,8 @@ import { AdddoctorcategoryComponent } from 'app/adddoctorcategory/adddoctorcateg
 import { AdddrlistComponent } from 'app/adddrlist/adddrlist.component';
 import { ShowUsersComponent } from 'app/show-users/show-users.component';
 import { QualificationsComponent } from 'app/qualifications/qualifications.component';
+import { MatCardModule } from '@angular/material/card';
+import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
 
 @NgModule({
   imports: [
@@ -32,6 +34,7 @@ import { QualificationsComponent } from 'app/qualifications/qualifications.compo
     MatDialogModule,
     MatIconModule,
     MatSlideToggleModule,
+    MatCardModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatRippleModule,
@@ -48,6 +51,7 @@ import { QualificationsComponent } from 'app/qualifications/qualifications.compo
     ShowUsersComponent,
     AdddrlistComponent,
     AdddoctorcategoryComponent,
+    AddsponsorComponent
    
   ]
 })

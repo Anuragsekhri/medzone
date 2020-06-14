@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
 import { MatCardModule  } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +34,10 @@ import { QualificationsComponent } from './qualifications/qualifications.compone
 import { QualificationmodalComponent } from './qualificationmodal/qualificationmodal.component';
 import { AddcategorymodalComponent } from './addcategorymodal/addcategorymodal.component';
 import { AdddoctorcategoryComponent } from './adddoctorcategory/adddoctorcategory.component';
+import { AddsponsorComponent } from './addsponsor/addsponsor.component';
+import { SponsormodalComponent } from './sponsormodal/sponsormodal.component';
+import { DoctorInfoModalComponent } from './doctor-info-modal/doctor-info-modal.component';
+import { ShowsessionmodalComponent } from './showsessionmodal/showsessionmodal.component';
 
 
 
@@ -57,6 +62,7 @@ import { AdddoctorcategoryComponent } from './adddoctorcategory/adddoctorcategor
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatListModule,
     MatRippleModule,
     MatFormFieldModule,
     MatTooltipModule,
@@ -76,13 +82,16 @@ import { AdddoctorcategoryComponent } from './adddoctorcategory/adddoctorcategor
     UserProfileComponent,
     QualificationmodalComponent,
     AddcategorymodalComponent,
-   // ShowUsersComponent
-    //AdddrlistComponent,
+    SponsormodalComponent,
+    DoctorInfoModalComponent,
+    ShowsessionmodalComponent,
+   
    
     
 
   ],
-  entryComponents:[ AddcitymodalComponent , UserProfileComponent , QualificationmodalComponent , AddcategorymodalComponent],
+  entryComponents:[ AddcitymodalComponent , UserProfileComponent , QualificationmodalComponent , SponsormodalComponent
+    ,AddcategorymodalComponent , DoctorInfoModalComponent , ShowsessionmodalComponent],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })

@@ -12,6 +12,7 @@ import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
 import { DoctorModel } from 'app/Classes/doctor-model';
 import { Experience } from 'app/Classes/Experience';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Sponsor } from 'app/Classes/Sponsor';
 
 
 class Qualification
@@ -31,7 +32,14 @@ export class UserProfileComponent implements OnInit {
   phone : string;
   address : string ;
 
-  cityId : string ;
+  sponsorStartDate : Date;
+  sponsorEndDate : Date;
+
+  sponsor : Sponsor;
+
+  sponsors : Sponsor[];
+
+  city : CityModel ;
 
   loading : boolean = false;
 
@@ -107,15 +115,27 @@ export class UserProfileComponent implements OnInit {
       }
     )
 
-    await  this.afs.collection(util.main).doc(util.main).collection('qualifications-'+util.main).snapshotChanges().subscribe(
-      val =>{
-        this.qualifications =[];
-        val.forEach( a => {
-          const item : any = a.payload.doc.data();
+    await this.afs.collection(util.main).doc(util.main).collection('qualifications-' + util.main).snapshotChanges().subscribe(
+      val => {
+        this.qualifications = [];
+        val.forEach(a => {
+          const item: any = a.payload.doc.data();
           var obj = new Qualification();
           obj = item;
           this.qualifications.push(obj);
-        })
+        });
+      }
+    )
+
+    this.afs.collection(util.main).doc(util.main).collection('sponsors-' + util.main).snapshotChanges().subscribe(
+      val => {
+        this.sponsors = [];
+        val.forEach(a => {
+          const item: any = a.payload.doc.data();
+          var obj = new Sponsor();
+          obj = item;
+          this.sponsors.push(obj);
+        });
       }
     )
     
@@ -190,8 +210,15 @@ export class UserProfileComponent implements OnInit {
   async adddoctor() {
 
     this.loading = true;
-    console.log(this.cityId);
     
+    
+    if(this.sponsorStartDate == undefined || this.sponsorEndDate == undefined || this.sponsor == undefined)
+    {
+      this.snackbar.open("Sponsor Name , start and end date are required " , "" ,{
+        duration : 2000
+      })
+      return;
+    }
     
     if (this.name == undefined || this.name == "") {
       this.snackbar.open("Invalid User Name" ,"",{
@@ -216,7 +243,7 @@ export class UserProfileComponent implements OnInit {
       this.loading = false;
       return;
     }
-    if(this.cityId == undefined || this.cityId.length <=1)
+    if(this.city == undefined || this.city.cityName.length <=1)
     {
       this.snackbar.open("City required" ,"",{
         duration:2000
@@ -271,7 +298,7 @@ export class UserProfileComponent implements OnInit {
 
 
 
-    this.authenticateEmployee(this.phone, this.email, phoneExists, emailExists).subscribe(async (response) => {
+    await this.authenticateEmployee(this.phone, this.email, phoneExists, emailExists).subscribe(async (response) => {
       console.log(response);
 
       if (response.isExist == -1) {
@@ -287,18 +314,30 @@ export class UserProfileComponent implements OnInit {
         var authId = response.uid;
         // add data here
         
+        var obj  = {}
+        obj['name'] = this.sponsor.name;
+        obj['sponsorHashCode'] = this.sponsor.sponsorHashCode;
+        obj['sponsorStartDate'] = this.sponsorStartDate;
+        obj['sponsorEndDate'] = this.sponsorEndDate;
+
+        var obj2 = {};
+        obj2['cityId'] = this.city.cityId;
+        obj2['cityName'] = this.city.cityName;
+
         this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(authId).set(
           {
             'name' : this.name,
             'email' : this.email,
-            'cityId' : this.cityId,
+            'city' : obj2,
             'active' : true,
             'address' : this.address,
             'doctorId' : authId,
             'qualifications' : this.qual,
             'category' : this.cat,
             'workExperience' : this.productForm.value['experiences'],
-            'mobile' : this.phone
+            'mobile' : this.phone,
+            'currentSponsor' : obj,
+            'uniqueId' : Number(this.phone).toString(32)
           }
         )
         console.log("user added in database");

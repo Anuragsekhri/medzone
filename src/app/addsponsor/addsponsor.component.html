@@ -1,10 +1,15 @@
 <div class="main-content">
     <div class="container-fluid">
-      <div class="col-md-12">
+      <div class="col-md-9">
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Cities </h4>
-                <button mat-raised-buuton class="btn  pull-right" style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);"(click) ="addcity()">Add City
+            <div class="card-header ">
+                <!-- <h4 class="card-title">Cities </h4> -->
+
+                <!-- <mat-form-field>
+                    <input matInput type="text" name ="cat" [(ngModel)] ="cat" placeholder="Enter Category">
+                </mat-form-field> -->
+                <button mat-raised-buuton class="btn  pull-right" (click) = "addsponsor()"
+                style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);">Add Sponosor
                     <mat-icon>add</mat-icon></button> 
                
                 
@@ -13,19 +18,20 @@
                 <table class="table table-hover">
                     <thead class="text-">
                         <th> S No</th>                         
-                        <th> City Name</th>
-                        <th> Status </th>
+                        <th> Sponsor Name</th>
+                        <th> Edit </th>
                         <!-- <th> Delete</th> -->
                     </thead>
                     <tbody>
                         <tr *ngFor = "let add of added , index as i">
                             <td>{{i+1}}</td>
                             <td>
-                                {{add.cityName}}
+                                {{add.name}}
                             </td>
                             <td>
-                                <mat-slide-toggle [checked] = "check(add.signal)" 
-                                (click) = "call(add.cityId,  add.signal)"></mat-slide-toggle>
+                                <button mat-button (click)="edit(add)" style="color: blueviolet;">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
                             </td>
                            
                             
@@ -38,10 +44,8 @@
 
             </div>
         </div>
-
      </div>
-
-  
+           
     </div>
   </div>
   

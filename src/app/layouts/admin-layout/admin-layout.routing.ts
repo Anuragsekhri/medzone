@@ -7,13 +7,15 @@ import { AdddoctorcategoryComponent } from 'app/adddoctorcategory/adddoctorcateg
 import { AdddrlistComponent } from 'app/adddrlist/adddrlist.component';
 import { ShowUsersComponent } from 'app/show-users/show-users.component';
 import { QualificationsComponent } from 'app/qualifications/qualifications.component';
+import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
 
 
 export const AdminLayoutRoutes: Routes = [
 
     // }
-    { path: 'dashboard',      component: DashboardComponent , canActivate:[AuthGuard] },
+    { path: 'dashboard',      component: DashboardComponent  },
     { path: 'addcity',      component: AddCityComponent },
+    { path: 'addsponsor',      component: AddsponsorComponent },
     { path: 'adddoctorcategory',      component: AdddoctorcategoryComponent , canActivate :[AuthGuard]},
     { path: 'addqualifications',      component: QualificationsComponent },
     { path: 'user-profile',   component: AdddrlistComponent  },
