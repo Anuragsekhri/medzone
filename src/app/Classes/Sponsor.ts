@@ -3,4 +3,7 @@ export class Sponsor {
     sponsorHashCode: string;
     sponsorStartDate : Date;
     sponsorEndDate : Date;
+    
+    sponsorImage : File;
+    sponsorImageUrl : string;
 }

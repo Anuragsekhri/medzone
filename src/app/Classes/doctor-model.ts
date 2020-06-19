@@ -6,18 +6,24 @@ import { CityModel } from "./city-model";
 
 
 export class DoctorModel {
-    doctorId  : string;    // auth se return hogyi 
+    doctorId  : string;   
+    
+    name : string;
+    doctorImage : File;
+    doctorImageUrl : string;
+    gender : number ; // 0 male , 1 female , 2 other
+    salutation : number ; // 0 Dr , 1 Mr , 2 Ds , 3 Mrs 
 
-    name : string;   //save name in uppercase
     email : string;
     mobile : string
-    // qualification : string[];
+   
     active : boolean;  // 0 active 1 deactive
-    //cityId : string;
+   
     address : string;
 
     uniqueId : string;
     city : CityModel;
+    authId : string;
 
     category : DoctorCategoryModel;
     qualifications : Qualification[];
@@ -27,7 +33,6 @@ export class DoctorModel {
     currentSponsor : Sponsor;
 
 
-    // authId te doctorId same rkhni hai -- yes
 
 
 }

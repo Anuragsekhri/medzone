@@ -1,25 +1,28 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CityModel } from 'app/Classes/city-model';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import * as util from '../util';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of } from 'rxjs';
-
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CityModel } from 'app/Classes/city-model';
 import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
-import { DoctorModel } from 'app/Classes/doctor-model';
 import { Experience } from 'app/Classes/Experience';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Sponsor } from 'app/Classes/Sponsor';
+import { Observable, of } from 'rxjs';
+import * as util from '../util';
+
 
 
 class Qualification
 {
   name : string;
   qualificationHashCode : string;
+  image : File;
+  imageUrl : string;
 }
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -27,19 +30,38 @@ class Qualification
 })
 export class UserProfileComponent implements OnInit {
 
-  name : string;
+  //name : string;
+  fname : string;
+  lname : string;
+
+
+  doctorImage : File;
+  doctorImageUrl : string = "";
+
+  gender : number;
+  salutation : number;
+  
+
   email : string;
   phone : string;
   address : string ;
+
+  qualfinal : any[];
+  experiencesfinal : any[];
 
   sponsorStartDate : Date;
   sponsorEndDate : Date;
 
   sponsor : Sponsor;
+  onpage :string = "Add"
 
   sponsors : Sponsor[];
 
+  show : boolean = false;
+
   city : CityModel ;
+
+  authId : string;
 
   loading : boolean = false;
 
@@ -56,40 +78,24 @@ export class UserProfileComponent implements OnInit {
   productForm: FormGroup;
 
   constructor(private afs : AngularFirestore  , private snackbar : MatSnackBar ,
-    private functions : AngularFireFunctions, private dialog : MatDialog,
+    private functions : AngularFireFunctions, private dialog : MatDialog, private staorage : AngularFireStorage,
     private http: HttpClient , private fb : FormBuilder
     ) {
-      this.productForm = this.fb.group({
-        experiences: this.fb.array([]) ,
-      });
+      
      }
     
-     experiences() : FormArray {
-      return this.productForm.get("experiences") as FormArray
-    }
+  
      
-    newExperience(): FormGroup {
-      return this.fb.group({
-        name: "",
-        startDate : new Date(),
-        endDate :  new Date()
-      })
-    }
-     
-    addQuantity() {
-      this.experiences().push(this.newExperience());
-    }
-     
-    removeQuantity(i:number) {
-      this.experiences().removeAt(i);
-    }
+    
     close()
     {
       this.dialog.closeAll();
     }
 
   async ngOnInit() {
+    this.salutation = 0;// by deafult 0
     this.cities =[];
+
 
   await  this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).snapshotChanges().subscribe(
       val =>{
@@ -122,6 +128,8 @@ export class UserProfileComponent implements OnInit {
           const item: any = a.payload.doc.data();
           var obj = new Qualification();
           obj = item;
+          obj.image = undefined;
+          obj.imageUrl = "";
           this.qualifications.push(obj);
         });
       }
@@ -210,17 +218,7 @@ export class UserProfileComponent implements OnInit {
   async adddoctor() {
 
     this.loading = true;
-    
-    
-    if(this.sponsorStartDate == undefined || this.sponsorEndDate == undefined || this.sponsor == undefined)
-    {
-      this.snackbar.open("Sponsor Name , start and end date are required " , "" ,{
-        duration : 2000
-      })
-      return;
-    }
-    
-    if (this.name == undefined || this.name == "") {
+    if (this.fname == undefined || this.fname == "") {
       this.snackbar.open("Invalid User Name" ,"",{
         duration:2000
       });
@@ -273,6 +271,38 @@ export class UserProfileComponent implements OnInit {
       this.loading = false;
       return;
     }
+    
+    
+    if(this.sponsorStartDate == undefined || this.sponsorEndDate == undefined || this.sponsor == undefined)
+    {
+      this.loading = false;
+      this.snackbar.open("Sponsor Name , start and end date are required " , "" ,{
+        duration : 2000
+      })
+      return;
+    }
+    for(let i = 0 ; i < this.experinces.length ; i++)
+    {
+      if(this.experinces[i].name == undefined || this.experinces[i].startDate == undefined || this.experinces[i].endDate ||
+        this.experinces[i].name.length <= 1)
+        {
+          this.loading = false;
+          this.snackbar.open("Fields (Name , Duration) of Work Experience can't be empty  " , "" ,{
+            duration : 2000
+          })
+          return;
+        }
+    }
+    if(this.gender == undefined)
+    {
+      this.loading = false;
+      this.snackbar.open("Gender is required " , "" ,{
+        duration : 2000
+      })
+      return;
+    }
+    
+
 
     const phoneExists = await this.employee_NumberExists_Check(this.phone);
     if (phoneExists) {
@@ -311,7 +341,7 @@ export class UserProfileComponent implements OnInit {
         // this.closeAddEditModal.nativeElement.click();
         return true;
       } else {
-        var authId = response.uid;
+        this.authId = response.uid;
         // add data here
         
         var obj  = {}
@@ -319,22 +349,41 @@ export class UserProfileComponent implements OnInit {
         obj['sponsorHashCode'] = this.sponsor.sponsorHashCode;
         obj['sponsorStartDate'] = this.sponsorStartDate;
         obj['sponsorEndDate'] = this.sponsorEndDate;
+        
 
         var obj2 = {};
         obj2['cityId'] = this.city.cityId;
         obj2['cityName'] = this.city.cityName;
 
-        this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(authId).set(
+        console.log(1);
+        var docId = this.afs.createId();  // authid and doc id needs to be different
+        
+        await this.addimages(docId);
+        await this.correct();
+
+        console.log(2);
+
+        if(this.lname == undefined)
+        {
+          this.lname = "";
+        }
+        
+
+        this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(docId).set(
           {
-            'name' : this.name,
+            'name' : this.fname + " " + this.lname,
+            'gender': this.gender,
+            'salutation' : this.salutation,
             'email' : this.email,
             'city' : obj2,
             'active' : true,
+            'doctorImageUrl' : this.doctorImageUrl,
             'address' : this.address,
-            'doctorId' : authId,
-            'qualifications' : this.qual,
+            'authId'  : this.authId,
+            'doctorId' : docId,
+            'qualifications' : this.qualfinal,
             'category' : this.cat,
-            'workExperience' : this.productForm.value['experiences'],
+            'workExperience' : this.experiencesfinal,
             'mobile' : this.phone,
             'currentSponsor' : obj,
             'uniqueId' : Number(this.phone).toString(32)
@@ -358,14 +407,183 @@ export class UserProfileComponent implements OnInit {
 
   }
 
-  adddoc()
+  async addimages(docId)
   {
+
+    console.log("before test");
+    
    
-    this.experinces = this.productForm.value['experiences'];
+    
     console.log(this.experinces);
+    console.log(this.qual);
+
+    
+    if(this.qual != undefined)
+    {
+    for(let i = 0 ; i < this.qual.length ; i++)
+    {
+      if(this.qual[i].image != undefined)
+      {
+      const file = this.qual[i].image;
+      const filename = this.qual[i].image.name;
+      const filepath = "doctors/"+ docId +"/qualifiactions/"+filename;
+      const fileRef = this.staorage.ref(filepath);
+      const uploadTask = this.staorage.upload(filepath,file);
+     
+
+      await uploadTask.snapshotChanges().pipe().toPromise().then (  () =>{
+        return fileRef.getDownloadURL().toPromise().then( result => {
+          console.log(result);
+          this.qual[i].imageUrl = result;
+        })
+      })
+      }
+     else{
+       this.qual[i].imageUrl = "";
+     }
+
+    }
+    }
+    console.log("after test start of work experince");
+
+    if(this.experinces != undefined)
+    {
+    for(let i = 0 ; i < this.experinces.length ;i++)
+    {
+      if(this.experinces[i].certificate != undefined)
+      {
+      const file = this.experinces[i].certificate;
+      const filename = this.experinces[i].certificate.name;
+      const filepath = "doctors/"+docId +"/experiences/"+filename;
+      const fileRef = this.staorage.ref(filepath);
+      const uploadTask = this.staorage.upload(filepath,file);
+
+     await uploadTask.snapshotChanges().pipe().toPromise().then (  () =>{
+        return fileRef.getDownloadURL().toPromise().then( result => {
+          console.log(result);
+          this.experinces[i].imageUrl = result;
+        })
+      })
+    }else{
+      this.experinces[i].imageUrl = "";
+    }
+      
+
+    }
+    }
+    console.log("END OF Work EXPERIENCE");
+
+    if(this.doctorImage != undefined)
+    {
+    const file = this.doctorImage;
+    const filename = this.doctorImage.name;
+    const filepath = "doctors/"+ docId +"profile_image";
+    const fileRef = this.staorage.ref(filepath);
+    const uploadTask = this.staorage.upload(filepath,file);
+   
+
+    await uploadTask.snapshotChanges().pipe().toPromise().then (  () =>{
+      return fileRef.getDownloadURL().toPromise().then( result => {
+        console.log(result);
+        this.doctorImageUrl = result;
+      })
+    })
+    }
+    else{
+      this.doctorImageUrl = "";
+    }
+  
 
     
   }
     
+  addqual()
+  {
+    console.log("qual button");
+    
+    if(this.show == false)
+    {
+    this.show = true;
+    this.onpage ="De-Select All";
+    }
+    else{
+    this.show = false;
+    this.onpage = "Add"
+    for(let i = 0 ; i < this.qualifications.length ; i++)
+    {
+      this.qualifications[i].image = undefined;
+    }
+    this.qual = undefined;
+
+    }
+  }
+
+  upload(event , i)
+  {
+    this.qualifications[i].image = event.target.files[0];
+  }
+
+  add()
+  {
+    if(this.experinces == undefined)
+    {
+      this.experinces =[];
+      this.experinces.push(new Experience());
+    }
+    else{
+      this.experinces.push(new Experience());
+    }
+  }
+
+  remove(i){
+    this.experinces.splice(i,1);
+  }
+
+  upload2(event , i)
+  {
+    var file = event.target.files[0];
+    this.experinces[i].certificate = file;
+  }
+
+  correct()
+  {
+    this.qualfinal = [];
+    if(this.qualifications != undefined)
+    {
+    for(let i = 0 ; i < this.qual.length ;i++)
+    {
+      var obj = {};
+      obj['name'] = this.qual[i].name;
+      obj['qualificationHashCode'] = this.qual[i].qualificationHashCode;
+      obj['imageUrl'] = this.qual[i].imageUrl;
+      this.qualfinal.push(obj);
+    }
+    }
+
+    this.experiencesfinal =[];
+    if(this.experinces != undefined)
+    {
+    for(let i = 0 ; i < this.experinces.length ;i++)
+    {
+      var obj = {};
+      obj['name'] = this.experinces[i].name;
+      obj['startDate'] = this.experinces[i].startDate;
+      obj['endDate'] = this.experinces[i].endDate;
+      obj['imageUrl'] = this.experinces[i].imageUrl;
+
+      this.experiencesfinal.push(obj);
+
+    }
+    }
+
+    console.log(this.qualfinal , this.experiencesfinal);
+  }
+
+
+  uploadd(event)
+  {
+    this.doctorImage = event.target.files[0];
+    console.log(this.doctorImage);
+  }
 
 }

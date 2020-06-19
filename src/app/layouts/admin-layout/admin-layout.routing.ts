@@ -13,12 +13,12 @@ import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
 export const AdminLayoutRoutes: Routes = [
 
     // }
-    { path: 'dashboard',      component: DashboardComponent  },
-    { path: 'addcity',      component: AddCityComponent },
-    { path: 'addsponsor',      component: AddsponsorComponent },
+    { path: 'dashboard',      component: DashboardComponent , canActivate :[AuthGuard] },
+    { path: 'addcity',      component: AddCityComponent , canActivate :[AuthGuard]},
+    { path: 'addsponsor',      component: AddsponsorComponent , canActivate :[AuthGuard]},
     { path: 'adddoctorcategory',      component: AdddoctorcategoryComponent , canActivate :[AuthGuard]},
-    { path: 'addqualifications',      component: QualificationsComponent },
-    { path: 'user-profile',   component: AdddrlistComponent  },
+    { path: 'addqualifications',      component: QualificationsComponent , canActivate :[AuthGuard]},
+    { path: 'user-profile',   component: AdddrlistComponent  , canActivate :[AuthGuard]},
     { path: 'show-users',   component: ShowUsersComponent , canActivate : [AuthGuard] },
    
 ];

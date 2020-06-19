@@ -4,19 +4,46 @@
 
    <h4 mat-dialog-title> Add Doctor</h4>
     <mat-dialog-content class="mat-typography">
-        <form >
+        
           <div class="row">
-          <mat-form-field class="col" >
-            <input matInput type="text" name="name" placeholder="Enter Name" [(ngModel)] = "name">
+          <mat-form-field class="col">
+            <mat-label>Select Salutation</mat-label>
+            <mat-select  name = "salutation" [(ngModel)] = "salutation">
+              <mat-option [value] = 0>Dr</mat-option>
+              <mat-option [value] = 1>Mr</mat-option>
+              <mat-option [value] = 2>Ms</mat-option>
+              <mat-option [value] = 3>Mrs</mat-option>
+            </mat-select>
           </mat-form-field>
+          
+          <mat-form-field class="col" >
+            <input matInput type="text" name="name" placeholder="Enter First  Name" [(ngModel)] = "fname">
+          </mat-form-field>
+
+          <mat-form-field class="col" >
+            <input matInput type="text" name="name" placeholder="Enter Last Name" [(ngModel)] = "lname">
+          </mat-form-field>
+
+          <mat-form-field class="col">
+            <mat-label>Select Gender</mat-label>
+            <mat-select name ="gender" [(ngModel)] = "gender">
+              <mat-option [value] = 0>Male</mat-option>
+              <mat-option [value] = 1>Female</mat-option>
+              <mat-option [value] = 2>Others</mat-option>
+              
+            </mat-select>
+          </mat-form-field>
+
+         
+
+          </div>
+
+         <div class="row">
 
           <mat-form-field class="col" >
             <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "email">
           </mat-form-field>
 
-          </div>
-
-         <div class="row">
           <mat-form-field class="col" >
             <input matInput type="text" name="phone" placeholder="Enter Phone" [(ngModel)] = "phone">
           </mat-form-field>
@@ -32,7 +59,8 @@
          </div>
 
 
-          <mat-form-field >
+         <div class="row">
+          <mat-form-field class="col">
             <mat-label>Select Category</mat-label>
             <mat-select name="cat" [(ngModel)] ="cat">
               <mat-option *ngFor  ="let cat of categories" [value] ="cat">
@@ -40,6 +68,14 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+
+          <div class="col">
+            <label>Doctor Image</label>
+            <input type="file" (change) = "uploadd($event )" 
+            style="color: blueviolet;" name="Doctor Image" placeholder="Doctor Image">
+          </div>
+         </div>
+          
 
 
          <!-- <mat-form-field >
@@ -66,28 +102,54 @@
           </mat-form-field>
 
           <mat-form-field class="col">
-            <mat-label>Choose Start Date</mat-label>
+            <mat-label>Choose End Date</mat-label>
             <input matInput [matDatepicker]="picker3" name = "sposnorStart" [(ngModel)] ="sponsorEndDate">
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3></mat-datepicker> 
           </mat-form-field>
 
+          
+
         </div>
           
-         <mat-form-field >
-          <mat-label>Select Qualifications</mat-label>
-          <mat-select multiple name = "qual" [(ngModel)] ="qual">
-            <mat-option *ngFor  ="let add of qualifications" [value] ="add">
-              {{add.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        
+
+        <table class="table table-bordered " >
+          <tr>
+            <th colspan="3">Add Qualification</th>
+            <th>
+              <button  mat-button color="primary"  (click)="addqual()">
+                {{onpage}}
+                <!-- <mat-icon>add</mat-icon> -->
+              </button>
+             </th>
+          </tr>
+        </table>
+
+            <mat-selection-list  name = "qual" [(ngModel)] ="qual" *ngIf ="show">
+              <mat-list-option *ngFor  ="let add of qualifications;index as i" [value] ="add">
+  
+                <div class="row">
+                  <div class="col">
+                    {{add.name}}
+                  </div>
+                  <div class="col">
+                    <input type = "file" placeholder="Enter Certificate Image"  style="color: blueviolet;"
+                    name ="abc" (change) = "upload($event,i)">
+                  
+                  </div>
+                </div>
+               
+                
+              </mat-list-option>
+            </mat-selection-list>
+
 
        
-        <form [formGroup]="productForm" >
+        <!--<form [formGroup]="productForm" >
     
         
-          <table class="table table-bordered" formArrayName="experiences">
+           <table class="table table-bordered table-responsive" formArrayName="experiences">
             <tr>
               <th colspan="3">Work Experience</th>
               <th>
@@ -125,17 +187,74 @@
                  
               </td>
               <td>
+                <input type="file" placeholder="Work Experience Certificate"  class="form-control" formControlName="certificate"
+                (change) = "upload2($event,i)"
+                >
+              </td>
+              <td>
                   <button mat-button (click)="removeQuantity(i)"  style="color: red;" >
                     <mat-icon>delete</mat-icon>
                   </button>
               </td>
             </tr>
-          </table>
+          </table> 
+
          
          
           
-        </form>
+        </form>-->
 
+        
+          <table class="table table-bordered table-responsive" >
+            <tr>
+              <th colspan="4">Work Experience</th>
+              <th>
+                <button  mat-button color="primary"  (click)="add()">
+                  <mat-icon>add</mat-icon>
+                </button>
+               </th>
+            </tr>
+            <tr *ngFor="let quantity of experinces; let i=index" >
+              <td>
+                 
+                  <mat-form-field >
+                    <mat-label >Add Organization </mat-label>
+                    <input matInput type  = "text"  [(ngModel)] = "quantity['name']"
+                    />
+                  </mat-form-field>
+                 
+              </td>
+              <td>
+                <mat-form-field >
+                  <mat-label>Choose Start Date</mat-label>
+                  <input matInput [matDatepicker]="picker"  [(ngModel)] = "quantity['startDate']">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker> 
+                </mat-form-field>
+                 
+              </td>
+              <td>
+                <mat-form-field >
+                  <mat-label>Choose End Date</mat-label>
+                  <input matInput [matDatepicker]="picker2" [(ngModel)] = "quantity['endDate']">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker> 
+                </mat-form-field>
+                 
+              </td>
+              <td>
+                <input type="file"  style="color: blueviolet;" (change) = "upload2($event,i)"
+                >
+              </td>
+              <td>
+                  <button mat-button (click)="remove(i)"  style="color: red;" >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+              </td>
+            </tr>
+          </table>
+        
+        
        
        
 
@@ -152,7 +271,7 @@
             <div class="clearfix"></div>
 
             <mat-spinner *ngIf ="loading"></mat-spinner>
-        </form>
+        
     </mat-dialog-content>
 
              

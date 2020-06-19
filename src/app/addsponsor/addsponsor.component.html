@@ -17,7 +17,8 @@
             <div class="card-body table-responsive">
                 <table class="table table-hover">
                     <thead class="text-">
-                        <th> S No</th>                         
+                        <th> S No</th>   
+                        <th>Sponsor Image</th>                      
                         <th> Sponsor Name</th>
                         <th> Edit </th>
                         <!-- <th> Delete</th> -->
@@ -25,6 +26,9 @@
                     <tbody>
                         <tr *ngFor = "let add of added , index as i">
                             <td>{{i+1}}</td>
+                            <td>
+                                <img width="120px" height="100px" class="img-rounded" src ={{add.sponsorImageUrl}} alt="No Image Yet">
+                            </td>
                             <td>
                                 {{add.name}}
                             </td>

@@ -5,6 +5,13 @@
      <mat-label>Sponsor Name</mat-label>
     <input matInput type ="text" name="name" [(ngModel)] ="name">
  </mat-form-field>
+
+ <mat-label *ngIf = "check()">Add Image</mat-label>
+ <mat-label *ngIf = "check2()">Update Image</mat-label>
+ <br>
+ <input type = "file" (change)="upload($event)" accept="image/*">
+
+ <mat-spinner *ngIf = "spin" ></mat-spinner>
  
 </mat-dialog-content>
 
