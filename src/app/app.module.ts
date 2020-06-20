@@ -35,6 +35,7 @@ import { ShowsessionmodalComponent } from './showsessionmodal/showsessionmodal.c
 import { SponsormodalComponent } from './sponsormodal/sponsormodal.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { environment } from 'environments/environment';
+import { SearchByPhoneComponent } from './search-by-phone/search-by-phone.component';
 
 
 
@@ -83,6 +84,7 @@ import { environment } from 'environments/environment';
     SponsormodalComponent,
     DoctorInfoModalComponent,
     ShowsessionmodalComponent,
+
    
    
     

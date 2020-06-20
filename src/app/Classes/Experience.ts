@@ -1,16 +1,10 @@
+import { firestore } from "firebase";
 export class Experience {
     name: string ;
-    startDate: Date;
-    endDate: Date;
+    startDate: firestore.Timestamp;   // i need to do timestamp here
+    endDate: firestore.Timestamp;
     certificate : File; // only i need this
     imageUrl : string; 
 
-    Experience(){
-        this.name  = undefined;
-        this.startDate = new Date();
-        this.endDate = new Date();
-        this.certificate = undefined;
-        this.imageUrl  = "";
-
-    }
+    
 }

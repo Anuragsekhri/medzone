@@ -8,6 +8,7 @@ import { AdddrlistComponent } from 'app/adddrlist/adddrlist.component';
 import { ShowUsersComponent } from 'app/show-users/show-users.component';
 import { QualificationsComponent } from 'app/qualifications/qualifications.component';
 import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
+import { SearchByPhoneComponent } from 'app/search-by-phone/search-by-phone.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -18,7 +19,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'addsponsor',      component: AddsponsorComponent , canActivate :[AuthGuard]},
     { path: 'adddoctorcategory',      component: AdddoctorcategoryComponent , canActivate :[AuthGuard]},
     { path: 'addqualifications',      component: QualificationsComponent , canActivate :[AuthGuard]},
-    { path: 'user-profile',   component: AdddrlistComponent  , canActivate :[AuthGuard]},
+    { path: 'user-profile',   component: AdddrlistComponent  },
     { path: 'show-users',   component: ShowUsersComponent , canActivate : [AuthGuard] },
+    { path: 'search_phone/:id',   component: SearchByPhoneComponent   },
    
 ];

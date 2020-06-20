@@ -281,6 +281,8 @@ export class UserProfileComponent implements OnInit {
       })
       return;
     }
+    if(this.experinces != undefined)
+    {
     for(let i = 0 ; i < this.experinces.length ; i++)
     {
       if(this.experinces[i].name == undefined || this.experinces[i].startDate == undefined || this.experinces[i].endDate ||
@@ -292,6 +294,7 @@ export class UserProfileComponent implements OnInit {
           })
           return;
         }
+    }
     }
     if(this.gender == undefined)
     {

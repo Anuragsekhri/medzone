@@ -1,15 +1,15 @@
-import { Component, OnInit, Query } from '@angular/core';
-import { AngularFirestore, CollectionReference } from '@angular/fire/firestore';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CityModel } from 'app/Classes/city-model';
 import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
 import { DoctorModel } from 'app/Classes/doctor-model';
+import { Sponsor } from 'app/Classes/Sponsor';
 import { UserProfileComponent } from 'app/user-profile/user-profile.component';
 import * as util from '../util';
-import { constants } from 'os';
-import { Sponsor } from 'app/Classes/Sponsor';
-import { DoctorInfoModalComponent } from 'app/doctor-info-modal/doctor-info-modal.component';
+
 
 
 @Component({
@@ -19,12 +19,15 @@ import { DoctorInfoModalComponent } from 'app/doctor-info-modal/doctor-info-moda
 })
 export class AdddrlistComponent implements OnInit {
 
-  constructor(private afs: AngularFirestore, private dialog: MatDialog, private snackbar: MatSnackBar) { }
+  constructor(private afs: AngularFirestore, private dialog: MatDialog, private snackbar: MatSnackBar
+    , private router : Router , private route: ActivatedRoute ) { }
 
   doctors: DoctorModel[];
   temp: DoctorModel[];
   phone: string;
   name: string;
+
+  pass : string;
 
   categoryHashCode: string;
   cityHashCode: string;
@@ -190,13 +193,16 @@ export class AdddrlistComponent implements OnInit {
 
   info(obj : DoctorModel)
   {
-    var config = new MatDialogConfig();
-    config.data = {
-      'obj' : obj
-    }
-    this.dialog.open(DoctorInfoModalComponent, config);
-    // fetch the doctor session at that
-    console.log("left")
+    // var config = new MatDialogConfig();
+    // config.data = {
+    //   'obj' : obj
+    // }
+    // this.dialog.open(DoctorInfoModalComponent, config);
+    // // fetch the doctor session at that
+    // console.log("left")
+    // this.shared.hash = obj.doctorId;
+    this.router.navigate(['/search_phone',obj.doctorId]);
+    // how about routing the page here 
   }
 
   

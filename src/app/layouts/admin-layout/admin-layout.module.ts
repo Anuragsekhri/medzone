@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
@@ -23,6 +24,8 @@ import { ShowUsersComponent } from 'app/show-users/show-users.component';
 import { QualificationsComponent } from 'app/qualifications/qualifications.component';
 import { MatCardModule } from '@angular/material/card';
 import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
+import { SearchByPhoneComponent } from 'app/search-by-phone/search-by-phone.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -40,6 +43,8 @@ import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTabsModule,
+    MatListModule,
     MatSelectModule,
     MatTooltipModule,
   ],
@@ -51,7 +56,8 @@ import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
     ShowUsersComponent,
     AdddrlistComponent,
     AdddoctorcategoryComponent,
-    AddsponsorComponent
+    AddsponsorComponent,
+    SearchByPhoneComponent,
    
   ]
 })

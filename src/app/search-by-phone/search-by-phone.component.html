@@ -1,0 +1,205 @@
+<div class="main-content">
+    <div class="container-fluid" style="padding: 2em 2em 4em;">
+        <mat-tab-group>
+            <mat-tab label = "Personal Info">
+                <div class="card">
+                    <div class="card-header" style="background-color: rgb(102, 48, 102);">
+                        <p style="font-size: large;font-style: italic;color: white;">
+                            Personal Info
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <form class="example-form">
+                            <div class="row">
+                                <mat-form-field class="col">
+                                  <mat-label>Select Salutation</mat-label>
+                                  <mat-select  name = "salutation" [(ngModel)] = "doctor.salutation">
+                                    <mat-option [value] = 0>Dr</mat-option>
+                                    <mat-option [value] = 1>Mr</mat-option>
+                                    <mat-option [value] = 2>Ms</mat-option>
+                                    <mat-option [value] = 3>Mrs</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                
+                                <mat-form-field class="col" >
+                                  <input matInput type="text" name="name" placeholder="Enter Name" [(ngModel)] = "doctor.name">
+                                </mat-form-field>
+                      
+                               
+                      
+                                <mat-form-field class="col">
+                                  <mat-label>Select Gender</mat-label>
+                                  <mat-select name ="gender" [(ngModel)] = "doctor.gender">
+                                    <mat-option [value] = 0>Male</mat-option>
+                                    <mat-option [value] = 1>Female</mat-option>
+                                    <mat-option [value] = 2>Others</mat-option>
+                                    
+                                  </mat-select>
+                                </mat-form-field>
+                      
+                               
+                      
+                                </div>
+                      
+                               <div class="row">
+                      
+                                <mat-form-field class="col" >
+                                  <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "doctor.email" >
+                                </mat-form-field>
+                      
+                                <mat-form-field class="col" >
+                                  <input matInput type="text" name="phone" placeholder="Enter Phone" [(ngModel)] = "doctor.mobile" >
+                                </mat-form-field>
+                      
+                                <mat-form-field class="col">
+                                  <mat-label>Select City</mat-label>
+                                  <mat-select name = "cityId" [(ngModel)] = "doctor.city.cityId">
+                                    <mat-option *ngFor  ="let city of cities" [value] ="city.cityId">
+                                      {{city.cityName}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                               </div>
+                      
+                      
+                               <div class="row">
+                                <mat-form-field class="col">
+                                  <mat-label>Select Category</mat-label>
+                                  <mat-select name="cat" [(ngModel)] ="doctor.category.categoryId">
+                                    <mat-option *ngFor  ="let cat of categories" [value] ="cat.categoryId">
+                                      {{cat.name}}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                      
+                                <div class="col">
+                                  <label>Doctor Image</label>
+                                  <input type="file" (change) = "uploadd($event )" 
+                                  style="color: blueviolet;" name="Doctor Image" placeholder="Doctor Image">
+                                </div>
+                               </div>
+                      </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" style="background-color: rgb(102, 48, 102);">
+                        <p style="font-size: large;font-style: italic;color: white;">
+                            Qualifications
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <mat-selection-list  name = "qual" [(ngModel)] ="qual" >
+                            <mat-list-option *ngFor  ="let add of qualifications;index as i" [value] ="add.qualificationHashCode">
+                
+                              <div class="row">
+
+                                
+                                  {{add.name}}
+                                
+                                    <!-- <img width="100px" height="100px" class="img-rounded" src= {{add.imageUrl}} alt="No Image Yet"> -->
+                               
+                                    
+                                  <!-- <input type = "file" placeholder="Enter Certificate Image"  style="color: blueviolet;"
+                                  name ="abc" (change) = "upload($event,i)"> -->
+                                
+                              
+                              </div>
+                             
+                              
+                            </mat-list-option>
+                          </mat-selection-list>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" style="background-color: rgb(102, 48, 102);">
+                        <p style="font-size: large;font-style: italic;color: white;">
+                            Work Experience
+                        </p>
+                    </div>
+                    <div class="card-body-responsive">
+                        <mat-list role="list">
+                        <mat-list-item  *ngFor = "let obj of doctor.workExperience" class="row">
+                          
+
+                            <div class="col">
+                                 Organization Name - {{obj.name}}
+                            </div>
+                            <div class="col">
+                              Start Date -  {{obj.startDate.toDate() | date: 'yyyy-MM-dd' }}
+                            </div>
+                            <div class="col">
+                                End Date -  {{obj.endDate.toDate() | date: 'yyyy-MM-dd' }}
+                            </div>
+
+                            <!-- <img class="col" height="10px" width="10px" src= {{obj.imageUrl}} alt="No Image Yet"> -->
+                            
+                            
+
+                        </mat-list-item>
+                        
+                        </mat-list>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label = "Time Slots">
+               
+              <div class="card-body col-md-12">
+                <table class ="table ">
+                  <tbody>
+                    <tr >
+                      <th>Name</th> <th>Start Time</th> <th>End Time</th> <th> Average Time</th><th>No of Slots</th>
+                    </tr>
+                    <tr *ngFor = "let obj of sessions">
+                      <td>{{obj.name}}</td> 
+                      <td>{{obj.fromTime.toDate() | date : 'hh:mm'}}</td>
+                      <td>{{obj.toTime.toDate() | date : 'hh:mm'}}</td>
+                      <td>{{obj.averageTime}}</td>
+                      <td>{{obj.noOfSlots}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+            </mat-tab>
+            <mat-tab label = "Day Schedules">
+              <div class="card-body col-md-12">
+                <table class ="table ">
+                  <tbody>
+                    <tr >
+                      <th>Name</th> <th>No of Sessions</th> <th>Time Slots</th>
+                    </tr>
+                    <tr *ngFor = "let obj of schedules">
+                      <td>{{obj.name}}</td> 
+                      <td>{{obj.noOfSessions}}</td>
+                      <td>
+                       
+                        <table class ="table ">
+                          <tbody>
+                            <tr>
+                              <th>Name</th> <th>Start Time</th> <th>End Time</th> <th> Average Time</th><th>No of Slots</th>
+                            </tr>
+                            <tr *ngFor = "let obj2 of obj.sessions">
+                              <td>{{obj2.name}}</td> 
+                              <td>{{obj2.fromTime.toDate() | date : 'hh:mm'}}</td>
+                              <td>{{obj2.toTime.toDate() | date : 'hh:mm'}}</td>
+                              <td>{{obj2.averageTime}}</td>
+                              <td>{{obj2.noOfSlots}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                       
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </mat-tab>
+            <mat-tab label = "Slots">
+                
+            </mat-tab>
+            <mat-tab label = "Appointments">
+                
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

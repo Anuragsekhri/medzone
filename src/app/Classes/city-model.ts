@@ -3,3 +3,4 @@ export class CityModel {
     cityName : string
     signal : number //0:active; 1:deactive
 }
+
