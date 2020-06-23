@@ -12,8 +12,8 @@
             <div class="container">
 
               <div class="row">
-                <button matButton class="btn pull-right"
-                  style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);" (click)="openmodal()">Add Doctor
+                <button matButton class="btn pull-right colorcode"
+                  (click)="openmodal()">Add Doctor
                   <mat-icon>add</mat-icon>
                 </button>
               </div>
@@ -59,7 +59,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="col">
-                  <mat-label>Search By Name</mat-label>
+                  <mat-label>Search By First Name</mat-label>
                   <input matInput type="text" name="name" [(ngModel)]="name" placeholder="name">
                 </mat-form-field>
 
@@ -72,11 +72,11 @@
 
 
                 <div class="col">
-                  <button matButton class="btn " style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);"
+                  <button matButton class="btn colorcode" 
                     (click)="applyfilters2()"> Apply</button>
                 </div>
                 <div class="col">
-                  <button matButton class="btn " style="background: linear-gradient(#ba68c8,#ab47bc,#9c27b0,#8e24aa);"
+                  <button matButton class="btn colorcode " 
                     (click)="clearfilter()"> clear</button>
                 </div>
 
@@ -110,7 +110,7 @@
               <tbody>
                 <tr *ngFor="let doc of doctors ; let i = index;">
                   <td> {{i+1}}</td>
-                  <td> {{doc.name}}</td>
+                  <td> {{doc.fname}}    {{doc.lname}}</td>
                   <td> {{doc.address}}</td>
 
                   <td>

@@ -31,7 +31,7 @@ export class AuthService {
             .then(userCredential => {
                 if (userCredential) {
                     this.isAuthentcated.next(true);
-                    this.router.navigate(['../addcity']);
+                    this.router.navigate(['../dashboard']);
 
                 }
             })

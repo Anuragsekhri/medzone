@@ -5,6 +5,9 @@
   position: relative;
   width: 100%;
 }
+.colorcode{
+  background-color: #00796B;
+}
 .tim-typo .tim-note{
   bottom: 5px;
   color: #c0c1c2;

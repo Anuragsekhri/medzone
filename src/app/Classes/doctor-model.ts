@@ -8,7 +8,9 @@ import { CityModel } from "./city-model";
 export class DoctorModel {
     doctorId  : string;   
     
-    name : string;
+    //name : string;
+    fname : string;
+    lname : string;
     doctorImage : File;
     doctorImageUrl : string;
     gender : number ; // 0 male , 1 female , 2 other

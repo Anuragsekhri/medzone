@@ -146,7 +146,7 @@ export class AdddrlistComponent implements OnInit {
     }
 
     if (this.name != undefined) {
-      abc = query.where('name', '==', this.name)
+      abc = query.where('fname', '==', this.name)
     }
 
     if (this.phone != undefined) {

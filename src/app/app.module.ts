@@ -18,9 +18,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { environment } from 'environments/environment';
 import { AddcategorymodalComponent } from './addcategorymodal/addcategorymodal.component';
 import { AddcitymodalComponent } from './addcitymodal/addcitymodal.component';
 import { AppComponent } from './app.component';
@@ -34,8 +36,6 @@ import { QualificationmodalComponent } from './qualificationmodal/qualificationm
 import { ShowsessionmodalComponent } from './showsessionmodal/showsessionmodal.component';
 import { SponsormodalComponent } from './sponsormodal/sponsormodal.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { environment } from 'environments/environment';
-import { SearchByPhoneComponent } from './search-by-phone/search-by-phone.component';
 
 
 
@@ -48,6 +48,7 @@ import { SearchByPhoneComponent } from './search-by-phone/search-by-phone.compon
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatStepperModule,
     MatSelectModule,
     MatCardModule,
     MatInputModule,

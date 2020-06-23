@@ -285,7 +285,7 @@ export class UserProfileComponent implements OnInit {
     {
     for(let i = 0 ; i < this.experinces.length ; i++)
     {
-      if(this.experinces[i].name == undefined || this.experinces[i].startDate == undefined || this.experinces[i].endDate ||
+      if(this.experinces[i].name == undefined || this.experinces[i].startDate == undefined || this.experinces[i].endDate == undefined||
         this.experinces[i].name.length <= 1)
         {
           this.loading = false;
@@ -374,7 +374,9 @@ export class UserProfileComponent implements OnInit {
 
         this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(docId).set(
           {
-            'name' : this.fname + " " + this.lname,
+            'fname' : this.fname,
+            'lname' : this.lname,
+            // 'name' : this.fname + " " + this.lname,
             'gender': this.gender,
             'salutation' : this.salutation,
             'email' : this.email,

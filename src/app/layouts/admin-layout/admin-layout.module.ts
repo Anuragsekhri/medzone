@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
 import { SearchByPhoneComponent } from 'app/search-by-phone/search-by-phone.component';
 import { MatListModule } from '@angular/material/list';
+import { MatDatepickerInput, MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -37,6 +39,7 @@ import { MatListModule } from '@angular/material/list';
     MatDialogModule,
     MatIconModule,
     MatSlideToggleModule,
+    MatDatepickerModule,
     MatCardModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
@@ -45,6 +48,7 @@ import { MatListModule } from '@angular/material/list';
     MatInputModule,
     MatTabsModule,
     MatListModule,
+    MatStepperModule,
     MatSelectModule,
     MatTooltipModule,
   ],

@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 import { CityModel } from 'app/Classes/city-model';
 import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
 import { DoctorModel } from 'app/Classes/doctor-model';
-import * as util from '../util';
-import { ActivatedRoute } from '@angular/router';
-import { Session } from 'app/Classes/session';
 import { Schedule } from 'app/Classes/schedule';
+import { Session } from 'app/Classes/session';
+import * as util from '../util';
+import { firestore } from 'firebase';
+import { Slot } from 'app/Classes/slot';
+import { GroupSlot } from 'app/Classes/GroupSlot';
+import { SingleSlot } from 'app/Classes/single-slot';
+
 
 
 class Qualification
@@ -19,7 +24,7 @@ class Qualification
 @Component({
   selector: 'app-search-by-phone',
   templateUrl: './search-by-phone.component.html',
-  styleUrls: ['./search-by-phone.component.css']
+  styleUrls: ['./search-by-phone.component.css', ]
 })
 export class SearchByPhoneComponent implements OnInit {
 
@@ -29,12 +34,19 @@ export class SearchByPhoneComponent implements OnInit {
   sessions : Session[];
   schedules : Schedule[];
 
+  date : Date;
+
+  groupSlot : GroupSlot[];
+  single_slot : SingleSlot[];
+
   schedulemap : {};
 
   qualifications : Qualification[];
   categories : DoctorCategoryModel[];
 
   qual : string[];
+  slots : Slot[];
+  
 
 
   constructor(private afs : AngularFirestore , private route : ActivatedRoute) { }
@@ -99,6 +111,8 @@ export class SearchByPhoneComponent implements OnInit {
     .get().toPromise().then( modal => {
       const item : any = modal;  
       this.doctor = item.data();
+      console.log(this.doctor);
+      
       console.log(this.doctor.qualifications);
       this.qual = [];
       for(let i = 0 ; i < this.doctor.qualifications.length ; i++)
@@ -148,6 +162,85 @@ export class SearchByPhoneComponent implements OnInit {
     })
 
 
+  }
+
+  call()
+  {
+    var doc = "";
+    var m = this.date.getMonth() + 1;
+    if(m < 10)
+    {
+      doc = this.date.getFullYear() + "0"+ m;
+    }
+    else
+    { doc = this.date.getFullYear() + ""+m
+    }
+    console.log(doc);
+   
+    
+    
+    let toTime = new Date(this.date.getUTCFullYear() , this.date.getMonth(), this.date.getDate());
+    toTime.setHours(23,59,59);
+
+    console.log(toTime);
+    
+    this.date.setHours(0,0,0);
+   
+
+    console.log(this.date + " " + toTime);
+    
+    this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(this.hash)
+    .collection('monthlySlot-'+util.main).doc(doc).collection('slot-'+util.main, ref => ref.where
+    ('fromTime','>=',this.date).where('fromTime','<=',toTime)).get().toPromise().then(
+      val => {
+        this.slots =[];
+        val.forEach( a => {
+          const item : any = a.data();
+          var obj = new Slot();
+          obj = item;
+          console.log(obj);
+          this.slots.push(obj);
+        })
+        this.call2();
+      }
+    )
+  }
+
+  call2()
+  {
+    this.groupSlot = [];
+    for(let i = 0 ; i < this.slots.length ; i++)
+    {
+      var keys = Object.keys( this.slots[i].groupSlotsMap);
+      //console.log(keys);
+      
+      for( let j = 0 ; j < keys.length ; j++)
+      {
+        var obj = new GroupSlot();
+        obj = this.slots[i].groupSlotsMap[keys[j]];
+        this.groupSlot.push(obj);
+      }
+    }
+
+    this.single_slot = [];
+    for(let ii = 0 ; ii < this.slots.length ; ii++)
+    {
+      var keys2 = Object.keys( this.slots[ii].singleSlotsMap);
+      console.log(keys2);
+      
+      for(let k = 0 ; k < keys2.length ; k++)
+      {
+        var obj2 = new SingleSlot();
+        obj2 = this.slots[ii].singleSlotsMap[keys2[k]];
+        if(obj2.appointmentId.length <= 1)
+        {
+          obj2.appointmentId = "NO APPOINTMENT YET"
+        }
+        this.single_slot.push(obj2);
+      }
+
+    }
+    console.log(this.single_slot);
     
 
   }
