@@ -1,167 +1,34 @@
 
-  <h1 mat-dialog-title>Doctor info</h1>
-  <div mat-dialog-content class="mat-typography" >
+  <h1 mat-dialog-title>Patient Reports</h1>
+  <div mat-dialog-content class="mat-typography" style="padding: 1em;">
       
-          <form >
-            <div class="row">
+        <table class="table" style="padding: 2em;">
+          <thead>
+            <th> Title</th>
+            <th></th>
+            <th> Creation Date</th>
+            <th></th>
+            <th> Report</th>
+          </thead>
 
-
-            
-            <mat-form-field class="col" >
-              <input matInput type="text" name="name" placeholder=" Name" value={{obj.name}} disabled>
-            </mat-form-field>
-  
-            <mat-form-field class="col" >
-              <input matInput type="email" name="email" placeholder="Email" value={{obj.email}} disabled>
-            </mat-form-field>
-  
-            </div>
-
-            <!-- <div class="row">
-              <div class="col">
-                Name
-              </div>
-              <div class="col">
-                {{obj.name}}
-              </div>
-            </div> -->
-  
-           <div class="row">
-            <mat-form-field class="col" >
-              <input matInput type="text" name="phone" placeholder="Phone" value = {{obj.mobile}} disabled>
-            </mat-form-field>
-  
-            <mat-form-field class="col" >
-              <input matInput type="text" name="City" placeholder="City" value = {{obj.city.cityName}} disabled>
-            </mat-form-field>
-            
-           </div>
-  
-  
-            <mat-form-field >
-               <input matInput type="text" name="City" placeholder="Category" value = {{obj.category.name}} disabled>
-            </mat-form-field>
-  
-           <div class="row">
-            <mat-form-field class="col" >
-              <input matInput type="text" name="Sponsor" placeholder="Sponsor Name" value = {{obj.currentSponsor.name}} disabled>
-            </mat-form-field>
-  
-            <!-- <mat-form-field class="col">
-              <input matInput type="date" name="Sponsor" placeholder="abc" value =  {{ obj.currentSponsor.sponsorStartDate }} disabled>
-            </mat-form-field>
-  
-            <mat-form-field class="col">
-              <mat-label>Choose Start Date</mat-label>
-              <input matInput [matDatepicker]="picker3" name = "sposnorStart" [(ngModel)] ="sponsorEndDate">
-              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-              <mat-datepicker #picker3></mat-datepicker> 
-            </mat-form-field> -->
-  
-          </div>
-            
-           <mat-form-field >
-            <input matInput type="text" name="Sponsor" placeholder="Qualifications" value = {{quallist}} disabled>
-          </mat-form-field>
-  
-         
-          <!-- <form [formGroup]="productForm" >
-      
-          
-            <table class="table table-bordered" formArrayName="experiences">
-              <tr>
-                <th colspan="3">Work Experience</th>
-                <th>
-                  <button  mat-button color="primary"  (click)="addQuantity()">
-                    <mat-icon>add</mat-icon>
-                  </button>
-                 </th>
-              </tr>
-              <tr *ngFor="let quantity of experiences().controls; let i=index" [formGroupName]="i">
-                <td>
-                   
-                    <mat-form-field >
-                      <mat-label >Add Organization </mat-label>
-                      <input matInput type  = "text"  formControlName="name" class="form-control"
-                      />
-                    </mat-form-field>
-                   
-                </td>
-                <td>
-                  <mat-form-field >
-                    <mat-label>Choose Start Date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="startDate" class="form-control">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker> 
-                  </mat-form-field>
-                   
-                </td>
-                <td>
-                  <mat-form-field >
-                    <mat-label>Choose End Date</mat-label>
-                    <input matInput [matDatepicker]="picker2" formControlName="endDate" class="form-control">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker> 
-                  </mat-form-field>
-                   
-                </td>
-                <td>
-                    <button mat-button (click)="removeQuantity(i)"  style="color: red;" >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-              </tr>
-            </table>
-           
-           
-            
-          </form> -->
-  
-         
-         
-  
-            <mat-form-field >
-              <input matInput type="text" name="address" placeholder="Address" value= {{obj.address}} disabled>
-            </mat-form-field>
-  
-           <!-- <div class="row">
-            <mat-list role="list" class="list-horizontal">
-              <mat-list-item  *ngFor = " let exp of experiences " role="listitem" style="opacity: 50%;">
-                {{exp.name}} 
-              </mat-list-item> 
-            </mat-list>
-           </div> -->
-  
-  
-            <mat-form-field >
-              <input matInput type="text" name="address" placeholder="Address" value= {{obj.address}} disabled>
-            </mat-form-field>
-            
-              <!-- change to adddoctor at end -->
-  
-             <p>Schedules :-</p>
-             <table class="table table-hover">
-               <thead>
-                <th *ngFor = "let schedule of schedules">
-  
-                  <button mat-button (click) = "open(schedule)">
-                    {{schedule.name}}
-                  </button>
-                 
-                </th>
-                
-               
-               </thead>
-               
-             </table>
-           
-             
-              
-          </form>
+          <tbody>
+            <tr *ngFor = "let obj of reports">
+              <td>{{obj.title}}</td>
+              <td></td>
+              <td>{{obj.createDate.toDate() | date : 'dd/MM/yyyy'}}</td>
+              <td></td>
+              <td>
+                <button  mat-icon-button (click)="goToLink(obj.fileUrl)">
+                  <mat-icon>assignment</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       
   </div>
   <div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button  mat-dialog-close>Close</button>
   </div>
 
 

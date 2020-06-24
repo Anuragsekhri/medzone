@@ -11,6 +11,9 @@ import { firestore } from 'firebase';
 import { Slot } from 'app/Classes/slot';
 import { GroupSlot } from 'app/Classes/GroupSlot';
 import { SingleSlot } from 'app/Classes/single-slot';
+import { Experience } from 'app/Classes/Experience';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -44,12 +47,15 @@ export class SearchByPhoneComponent implements OnInit {
   qualifications : Qualification[];
   categories : DoctorCategoryModel[];
 
+  experiences_final : any[];
+
   qual : string[];
   slots : Slot[];
   
 
 
-  constructor(private afs : AngularFirestore , private route : ActivatedRoute) { }
+  constructor(private afs : AngularFirestore , private route : ActivatedRoute , private staorage : AngularFireStorage
+    , private snackbar : MatSnackBar) { }
 
   map : {};
  
@@ -107,6 +113,8 @@ export class SearchByPhoneComponent implements OnInit {
       }
     )
 
+   
+
     await this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(this.hash)
     .get().toPromise().then( modal => {
       const item : any = modal;  
@@ -121,6 +129,12 @@ export class SearchByPhoneComponent implements OnInit {
         this.qual.push(hash);
         // console.log(hash + " " + this.map[hash]);
         // this.qualifications[this.map[hash]].imageUrl = this.doctor.qualifications[i].imageUrl;
+      }
+
+      for(let i = 0 ; i < this.doctor.workExperience.length ; i++)
+      {
+        this.doctor.workExperience[i].startDateo = this.doctor.workExperience[i].startDate.toDate();
+        this.doctor.workExperience[i].endDateo = this.doctor.workExperience[i].endDate.toDate();
       }
       
     })
@@ -140,9 +154,10 @@ export class SearchByPhoneComponent implements OnInit {
         index++;
 
       })
+      console.log(this.schedules);
     })
 
-    console.log(this.schedules);
+    
 
     //Time - slots 
     await this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(this.hash)
@@ -243,6 +258,89 @@ export class SearchByPhoneComponent implements OnInit {
     console.log(this.single_slot);
     
 
+  }
+
+  add()
+  {
+    this.doctor.workExperience.push(new Experience());
+  }
+
+  remove(i){
+    this.doctor.workExperience.splice(i,1);
+  }
+
+async  update_experience()
+  {
+    // check everything ok 
+    this.experiences_final = [];
+    for(let i = 0 ; i < this.doctor.workExperience.length ; i++)
+    {
+      var obj = this.doctor.workExperience[i];
+      if(obj.certificate == undefined  )
+      {
+        // no image added , changed
+        if(obj.imageUrl.length == undefined)
+        {
+          var o = {};
+          o['name'] = obj.name;
+          o['startDate'] = obj.startDateo;
+          o['endDate'] = obj.endDateo;
+          o['imageUrl'] = "";
+         // new experience added with no image
+         this.experiences_final.push(o);
+        }
+        else{
+          // it was previoud object with no changes in image 
+            var o = {};
+            o['name'] = obj.name;
+            o['startDate'] = obj.startDateo
+            o['endDate'] = obj.endDateo
+            o['imageUrl'] = obj.imageUrl
+
+            this.experiences_final.push(o);
+        }
+      }
+      else
+      {
+        
+           // new experience to be added with the image or previous image chnaged
+           var o = {};
+           const file = obj.certificate;
+           const filename = obj.certificate.name;
+           const filepath = "doctors/"+ this.hash +"/experiences/"+filename;
+           const fileRef = this.staorage.ref(filepath);
+           const uploadTask = this.staorage.upload(filepath,file);
+     
+          await uploadTask.snapshotChanges().pipe().toPromise().then (  () =>{
+             return fileRef.getDownloadURL().toPromise().then( result => {
+               console.log(result);
+               o['imageUrl'] = result;
+             })
+           })
+          o['name'] = obj.name;
+          o['startDate'] = obj.startDateo;
+          o['endDate'] = obj.endDateo;
+
+           this.experiences_final.push(o);
+         
+      }
+
+    }
+
+    await this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main)
+    .doc(this.hash).update({
+      'workExperience' : this.experiences_final
+    })
+
+   this.snackbar.open("Work Experience Added ", "",{
+     duration : 2000
+   })
+    
+  }
+
+  upload2(event , i)
+  {
+    this.doctor.workExperience[i].certificate = event.target.files[0];
   }
 
 

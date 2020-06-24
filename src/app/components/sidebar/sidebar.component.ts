@@ -14,7 +14,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/addsponsor', title: 'Sponsor',  icon:'person', class: '' },
     { path: '/addqualifications', title: 'Qualifications',  icon:'school', class: '' },
     { path: '/user-profile', title: 'Doctor',  icon:'medical_services', class: '' },
-    {path: '/show-users', title: 'Patients',  icon:'supervisor_account', class: '' },
+    {path: '/show-users', title: 'Patients',  icon:'supervisor_account', class: ''  },
     
 ];
 

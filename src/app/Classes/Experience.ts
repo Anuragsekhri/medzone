@@ -7,4 +7,8 @@ export class Experience {
     imageUrl : string; 
 
     
+    startDateo : Date;   // not timestamps
+    endDateo : Date;
+
+    
 }

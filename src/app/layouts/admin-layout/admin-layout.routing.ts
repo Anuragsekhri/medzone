@@ -20,7 +20,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'adddoctorcategory',      component: AdddoctorcategoryComponent , canActivate :[AuthGuard]},
     { path: 'addqualifications',      component: QualificationsComponent , canActivate :[AuthGuard]},
     { path: 'user-profile',   component: AdddrlistComponent  },
-    { path: 'show-users',   component: ShowUsersComponent , canActivate : [AuthGuard] },
+    { path: 'show-users/:id',   component: ShowUsersComponent ,  },
+    { path: 'show-users',   component: ShowUsersComponent ,  },
     { path: 'search_phone/:id',   component: SearchByPhoneComponent   },
    
 ];

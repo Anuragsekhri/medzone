@@ -9,6 +9,7 @@ import { DoctorModel } from 'app/Classes/doctor-model';
 import { Sponsor } from 'app/Classes/Sponsor';
 import { UserProfileComponent } from 'app/user-profile/user-profile.component';
 import * as util from '../util';
+import { ShowUsersComponent } from 'app/show-users/show-users.component';
 
 
 
@@ -189,6 +190,9 @@ export class AdddrlistComponent implements OnInit {
   {
     // after editing call applyfilters2 that way data will always be in sync
     console.log("left")
+    this.router.navigate(['show-users',obj.doctorId])
+    //this.dialog.open(ShowUsersComponent);
+    // navigaet to show users componet ans pass doc id to it
   }
 
   info(obj : DoctorModel)

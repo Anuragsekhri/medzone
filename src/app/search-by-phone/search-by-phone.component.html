@@ -119,29 +119,59 @@
                         <p style="font-size: large;color: white;">
                             Work Experience
                         </p>
+                        <button  mat-button class="pull-right" style="color: white;" color="white"  (click)="add()">
+                          <mat-icon>add</mat-icon>
+                        </button>
                     </div>
-                    <div class="card-body-responsive">
-                        <mat-list role="list">
-                        <mat-list-item  *ngFor = "let obj of doctor.workExperience" class="row">
-                          
-
-                            <div class="col">
-                                 Organization Name - {{obj.name}}
-                            </div>
-                            <div class="col">
-                              Start Date -  {{obj.startDate.toDate() | date: 'yyyy-MM-dd' }}
-                            </div>
-                            <div class="col">
-                                End Date -  {{obj.endDate.toDate() | date: 'yyyy-MM-dd' }}
-                            </div>
-
-                            <!-- <img class="col" height="10px" width="10px" src= {{obj.imageUrl}} alt="No Image Yet"> -->
+                    <div class="card-body">
+                        <table class="table table-responsive">
+                          <tbody>
                             
-                            
-
-                        </mat-list-item>
-                        
-                        </mat-list>
+                          <tr *ngFor="let quantity of doctor.workExperience; let i=index" >
+                            <td>
+                               
+                                <mat-form-field >
+                                  <mat-label >Add Organization </mat-label>
+                                  <input matInput type  = "text"  [(ngModel)] = "quantity['name']"
+                                  />
+                                </mat-form-field>
+                               
+                            </td>
+                            <td>
+                              <mat-form-field >
+                                <mat-label>Choose Start Date</mat-label>
+                                <input matInput [matDatepicker]="picker"  [(ngModel)] = "quantity['startDateo']">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker> 
+                              </mat-form-field>
+                               
+                            </td>
+                            <td>
+                              <mat-form-field >
+                                <mat-label>Choose End Date</mat-label>
+                                <input matInput [matDatepicker]="picker2" [(ngModel)] = "quantity['endDateo']">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker> 
+                              </mat-form-field>
+                               
+                            </td>
+                            <td>
+                              <img width="100px" height="100px" src = {{quantity.imageUrl}} alt="No Image Yet">
+                            </td>
+                            <td>
+                              <input type="file"  style="color: blueviolet;" (change) = "upload2($event,i)"
+                              >
+                            </td>
+                            <td>
+                                <button mat-button (click)="remove(i)"  style="color: red;" >
+                                  <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                        </table>
+                        <button mat-button class="colorcode pull-right" (click) = "update_experience()">
+                          Update</button>
                     </div>
                 </div>
             </mat-tab>
