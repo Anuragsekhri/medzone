@@ -1,0 +1,25 @@
+<div   >
+  <h1 mat-dialog-title>Medicine Details</h1>
+  <div mat-dialog-content class="mat-typography" >
+      <form>
+          <mat-form-field>
+              <input matInput type ="text" placeholder="Name" name="name" [(ngModel)] = "med.name">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type = "text" placeholder="Generic Name" name="Generic name" [(ngModel)] = "med['genericName']">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type = "number" placeholder= "Quantity" name="Quantity" [(ngModel)] = "med['quantity']">
+          </mat-form-field>
+
+      </form>
+      
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button  mat-dialog-close>Close</button>
+    <button mat-button  (click) ="save()">Save</button>
+  </div>
+
+</div>
+
+

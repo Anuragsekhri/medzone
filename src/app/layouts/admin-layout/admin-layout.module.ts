@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import {MatTableModule} from '@angular/material/table';
 import { NgModule } from '@angular/core';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -28,6 +29,7 @@ import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
 import { SearchByPhoneComponent } from 'app/search-by-phone/search-by-phone.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerInput, MatDatepickerModule } from '@angular/material/datepicker';
+import { MedicinesComponent } from 'app/medicines/medicines.component';
 
 @NgModule({
   imports: [
@@ -49,6 +51,7 @@ import { MatDatepickerInput, MatDatepickerModule } from '@angular/material/datep
     MatTabsModule,
     MatListModule,
     MatStepperModule,
+    MatTableModule,
     MatSelectModule,
     MatTooltipModule,
   ],
@@ -62,6 +65,7 @@ import { MatDatepickerInput, MatDatepickerModule } from '@angular/material/datep
     AdddoctorcategoryComponent,
     AddsponsorComponent,
     SearchByPhoneComponent,
+    MedicinesComponent
    
   ]
 })

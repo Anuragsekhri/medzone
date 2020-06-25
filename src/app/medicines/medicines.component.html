@@ -1,0 +1,51 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card ">
+            <div class="card-header ">
+                <mat-nav-list dense class="list-horizontal" *ngFor ="let a of alphabets; index as i">
+                  <button mat-icon-button  (click) = "select2(a)"> {{a}}</button> 
+                </mat-nav-list>
+                <mat-nav-list>
+                    
+                    
+                    <button  class="btn float-right" (click) ="add()" style="background-color:#00796B;">
+                        <mat-icon>add</mat-icon>
+                        ADD Medicine
+                    </button>
+                    <b>
+                        &nbsp; &nbsp; Selected Alphabet : {{selected}}
+                    </b> 
+                </mat-nav-list>
+               
+            </div>
+            <div class="card-body table-responsive">
+                <mat-divider></mat-divider>
+                <table class="table table-stripped">
+                    <thead>
+                        <th>Name</th> <th>Generic Name</th> <th>Quantity</th> <th>Edit</th> <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = "let med of medicines ; index as i">
+                            <td>{{med.name}}</td><td>{{med.genericName}}</td><td>{{med.quantity}}</td>
+                            <td>
+                                <button mat-button color="primary" (click) ="edit(med)" class="no-hover-effect">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
+                            </td>
+                            <td>
+                                <button mat-button color="primary" (click) ="delete(med , i)" class="no-hover-effect">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <mat-divider></mat-divider>
+                <button   class="btn pull-right" (click) = "loadmore()">Load More</button>
+                  
+            </div>
+        </div>
+    </div>
+   
+</div>

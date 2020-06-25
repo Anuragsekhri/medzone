@@ -1,0 +1,10 @@
+mat-nav-list.list-horizontal {
+    padding: 0.1em;
+    display: inline-block;
+    height: auto;
+    width: auto;
+}
+
+.myClass{
+    color : red;
+  }

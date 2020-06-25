@@ -344,4 +344,10 @@ async  update_experience()
   }
 
 
+  uploadd(event)
+  {
+    // chnage doctor image here
+  }
+
+
 }

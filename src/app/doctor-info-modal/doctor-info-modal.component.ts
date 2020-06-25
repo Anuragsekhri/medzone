@@ -1,11 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DoctorModel } from 'app/Classes/doctor-model';
-import { Experience } from 'app/Classes/Experience';
-import { firestore } from 'firebase';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as util from '../util'
-import { ShowsessionmodalComponent } from 'app/showsessionmodal/showsessionmodal.component';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { firestore } from 'firebase';
 
 class Session{
   fromTime : firestore.Timestamp;

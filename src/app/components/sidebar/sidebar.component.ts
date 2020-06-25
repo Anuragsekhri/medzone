@@ -15,6 +15,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/addqualifications', title: 'Qualifications',  icon:'school', class: '' },
     { path: '/user-profile', title: 'Doctor',  icon:'medical_services', class: '' },
     {path: '/show-users', title: 'Patients',  icon:'supervisor_account', class: ''  },
+    {path: '/medicines', title: 'Medicines',  icon:'block', class: ''  },
     
 ];
 

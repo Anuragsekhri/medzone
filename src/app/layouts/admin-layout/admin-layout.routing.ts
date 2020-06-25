@@ -9,6 +9,7 @@ import { ShowUsersComponent } from 'app/show-users/show-users.component';
 import { QualificationsComponent } from 'app/qualifications/qualifications.component';
 import { AddsponsorComponent } from 'app/addsponsor/addsponsor.component';
 import { SearchByPhoneComponent } from 'app/search-by-phone/search-by-phone.component';
+import { MedicinesComponent } from 'app/medicines/medicines.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -23,5 +24,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'show-users/:id',   component: ShowUsersComponent ,  },
     { path: 'show-users',   component: ShowUsersComponent ,  },
     { path: 'search_phone/:id',   component: SearchByPhoneComponent   },
+    {path : 'medicines' , component : MedicinesComponent}
    
 ];
