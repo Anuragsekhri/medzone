@@ -70,6 +70,9 @@ export class UserProfileComponent implements OnInit {
   qualifications : Qualification[];
   categories : DoctorCategoryModel[];
 
+  inPersonFee : number;
+  throughVideoFee : number;
+
   qual : Qualification[];
   cat : DoctorCategoryModel;
 
@@ -95,6 +98,8 @@ export class UserProfileComponent implements OnInit {
   async ngOnInit() {
     this.salutation = 0;// by deafult 0
     this.cities =[];
+    this.inPersonFee = 0;
+    this.throughVideoFee = 0;
 
 
   await  this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).snapshotChanges().subscribe(
@@ -220,6 +225,15 @@ export class UserProfileComponent implements OnInit {
     this.loading = true;
     if (this.fname == undefined || this.fname == "") {
       this.snackbar.open("Invalid User Name" ,"",{
+        duration:2000
+      });
+      this.loading = false;
+      return;
+    }
+
+    if(this.throughVideoFee == undefined || this.throughVideoFee < 0 || this.inPersonFee == undefined || this.inPersonFee <0)
+    {
+      this.snackbar.open("Please Enter Valid Fee Details" ,"",{
         duration:2000
       });
       this.loading = false;
@@ -381,6 +395,8 @@ export class UserProfileComponent implements OnInit {
             'salutation' : this.salutation,
             'email' : this.email,
             'city' : obj2,
+            'inPersonFee' : this.inPersonFee,
+            'throughVideoFee' : this.throughVideoFee,
             'active' : true,
             'doctorImageUrl' : this.doctorImageUrl,
             'address' : this.address,

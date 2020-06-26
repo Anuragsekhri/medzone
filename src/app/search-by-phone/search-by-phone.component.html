@@ -48,11 +48,11 @@
                                <div class="row">
                       
                                 <mat-form-field class="col" >
-                                  <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "doctor.email" >
+                                  <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)] = "doctor.email"  disabled>
                                 </mat-form-field>
                       
                                 <mat-form-field class="col" >
-                                  <input matInput type="text" name="phone" placeholder="Enter Phone" [(ngModel)] = "doctor.mobile" >
+                                  <input matInput type="text" name="phone" placeholder="Enter Phone" [(ngModel)] = "doctor.mobile" disabled>
                                 </mat-form-field>
                       
                                 <mat-form-field class="col">
@@ -75,13 +75,24 @@
                                     </mat-option>
                                   </mat-select>
                                 </mat-form-field>
+
+                                <mat-form-field class="col" >
+                                  <input matInput type="In Person Fee" name="inperson" placeholder="In Person Fee" [(ngModel)] = "doctor.inPersonFee" >
+                                </mat-form-field>
+
+                                <mat-form-field class="col" >
+                                  <input matInput type="Through Vide Fee" name="throughvideo" placeholder="Through Vide Fee" [(ngModel)] = "doctor.throughVideoFee" >
+                                </mat-form-field>
                       
-                                <div class="col">
+                                <!-- <div class="col">
                                   <label>Doctor Image</label>
                                   <input type="file" (change) = "uploadd($event )" 
                                   style="color: blueviolet;" name="Doctor Image" placeholder="Doctor Image">
-                                </div>
+                                </div> -->
                                </div>
+
+                               <button mat-button class="colorcode pull-right" (click) = "update_personal_info()">
+                                Update</button>
                       </form>
                     </div>
                 </div>

@@ -18,6 +18,9 @@ export class DoctorModel {
 
     email : string;
     mobile : string
+
+    inPersonFee : number;
+    throughVideoFee : number;
    
     active : boolean;  // 0 active 1 deactive
    

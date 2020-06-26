@@ -62,6 +62,15 @@
           </mat-form-field>
          </div>
 
+         <div class="row">
+          <mat-form-field class="col" >
+            <input matInput type="number" name="In person Fees" placeholder="In Person Fess" [(ngModel)] = "inPersonFee">
+          </mat-form-field>
+          <mat-form-field class="col" >
+            <input matInput type="number" name="Over  Fees" placeholder="Through Video  " [(ngModel)] = "throughVideoFee">
+          </mat-form-field>
+         </div>
+
 
          <div class="row">
           <mat-form-field class="col">
@@ -173,7 +182,7 @@
               <button mat-button matStepperPrevious>Back</button>
               <button mat-button matStepperNext>Next</button>
             </div>
-            </mat-step>
+        </mat-step>
        
        <mat-step>
          <ng-template matStepLabel>Add Work Experience</ng-template>
@@ -238,16 +247,7 @@
 
        </mat-step>
         
-         
-        
-        
-       
-       
 
-        
-
-          
-            <!-- change to adddoctor at end -->
            
            
         </mat-horizontal-stepper>

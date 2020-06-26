@@ -14,6 +14,7 @@ import { SingleSlot } from 'app/Classes/single-slot';
 import { Experience } from 'app/Classes/Experience';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { threadId } from 'worker_threads';
 
 
 
@@ -32,6 +33,7 @@ class Qualification
 export class SearchByPhoneComponent implements OnInit {
 
   doctor : DoctorModel;
+  current : DoctorModel;
   hash : string = "";
   cities : CityModel[];
   sessions : Session[];
@@ -51,6 +53,9 @@ export class SearchByPhoneComponent implements OnInit {
 
   qual : string[];
   slots : Slot[];
+
+  cityMap : {};
+  categoryMap : {};
   
 
 
@@ -69,6 +74,10 @@ export class SearchByPhoneComponent implements OnInit {
     })
     console.log(this.hash);
     this.doctor = new DoctorModel();
+    this.current = new DoctorModel();
+
+    this.current.city = new CityModel();
+    this.current.category = new DoctorCategoryModel();
     this.doctor.city = new CityModel();
     this.doctor.category = new DoctorCategoryModel();
     this.doctor.qualifications =  [];
@@ -92,10 +101,12 @@ export class SearchByPhoneComponent implements OnInit {
     await  this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).get().toPromise().then(
       val =>{
         this.cities =[];
+        this.cityMap = {};
         val.forEach( a => {
           const item : any = a.data();
           var obj = new CityModel();
           obj = item;
+          this.cityMap[obj.cityId] = obj.cityName;
           this.cities.push(obj);
         })
       }
@@ -104,10 +115,12 @@ export class SearchByPhoneComponent implements OnInit {
     await  this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).get().toPromise().then(
       val =>{
         this.categories =[];
+        this.categoryMap = {};
         val.forEach( a => {
           const item : any = a.data();
           var obj = new DoctorCategoryModel();
           obj = item;
+          this.categoryMap[obj.categoryId] = obj.name;
           this.categories.push(obj);
         })
       }
@@ -119,6 +132,7 @@ export class SearchByPhoneComponent implements OnInit {
     .get().toPromise().then( modal => {
       const item : any = modal;  
       this.doctor = item.data();
+      this.current = item.data();
       console.log(this.doctor);
       
       console.log(this.doctor.qualifications);
@@ -344,9 +358,51 @@ async  update_experience()
   }
 
 
-  uploadd(event)
+  // uploadd(event)
+  // {
+  //   // chnage doctor image here
+  // }
+
+  async  update_personal_info()
   {
-    // chnage doctor image here
+    if(this.doctor.fname == undefined || this.doctor.lname == undefined || this.doctor.inPersonFee == undefined || this.doctor.throughVideoFee == undefined
+    || this.doctor.fname.length <= 1 || this.doctor.inPersonFee < 0 || this.doctor.throughVideoFee <0)
+    {
+      this.snackbar.open("Enter valid details to update the Fields ","",{
+        duration : 2000
+      })
+      this.doctor.fname = this.current.fname;
+      this.doctor.lname = this.current.lname;
+      this.doctor.inPersonFee = this.current.inPersonFee;
+      this.doctor.throughVideoFee = this.current.throughVideoFee;
+    }
+    else{
+
+      var obj = {};
+      obj['cityId'] = this.doctor.city.cityId;
+      obj['cityName'] = this.cityMap[this.doctor.city.cityId];
+
+      var obj2 = {};
+      obj2['categoryId'] = this.doctor.category.categoryId;
+      obj2['name'] = this.categoryMap[this.doctor.category.categoryId];
+
+      await this.afs.collection(util.main).doc(util.main).collection('doctors-'+util.main).doc(this.doctor.doctorId)
+      .update({
+        'fname' : this.doctor.fname,
+        'lname' : this.doctor.lname,
+        'inPersonFee' : this.doctor.inPersonFee,
+        'throughVideoFee' : this.doctor.throughVideoFee,
+        'gender' : this.doctor.gender,
+        'salutation' : this.doctor.salutation,
+        'city' : obj,
+        'category' : obj2,
+      })
+
+      this.snackbar.open("Details Updated ", "", {
+        duration : 2000
+      })
+
+    }
   }
 
 
