@@ -77,11 +77,11 @@
                                 </mat-form-field>
 
                                 <mat-form-field class="col" >
-                                  <input matInput type="In Person Fee" name="inperson" placeholder="In Person Fee" [(ngModel)] = "doctor.inPersonFee" >
+                                  <input matInput type="number" name="inperson" placeholder="In Person Fee" [(ngModel)] = "doctor.inPersonFee" >
                                 </mat-form-field>
 
                                 <mat-form-field class="col" >
-                                  <input matInput type="Through Vide Fee" name="throughvideo" placeholder="Through Vide Fee" [(ngModel)] = "doctor.throughVideoFee" >
+                                  <input matInput type="number" name="throughvideo" placeholder="Through Vide Fee" [(ngModel)] = "doctor.throughVideoFee" >
                                 </mat-form-field>
                       
                                 <!-- <div class="col">
@@ -102,27 +102,48 @@
                             Qualifications
                         </p>
                     </div>
-                    <div class="card-body">
+                    <div class="container card-body table-responsive">
                         <mat-selection-list  name = "qual" [(ngModel)] ="qual" >
-                            <mat-list-option *ngFor  ="let add of qualifications;index as i" [value] ="add.qualificationHashCode">
+
+                          <mat-list-option>
+                            <div class="row">
+                              <div class="col">Qualification Name</div>
+                              <div class="col">Upload/Change Image</div>
+                              <div class="col">View Image</div>
+                            </div>
+                          </mat-list-option>
+
+                            <mat-list-option *ngFor  ="let add of qualifications;index as i" [value] ="add">
                 
+                              
                               <div class="row">
 
-                                
-                                  {{add.name}}
-                                
-                                    <!-- <img width="100px" height="100px" class="img-rounded" src= {{add.imageUrl}} alt="No Image Yet"> -->
-                               
-                                    
-                                  <!-- <input type = "file" placeholder="Enter Certificate Image"  style="color: blueviolet;"
-                                  name ="abc" (change) = "upload($event,i)"> -->
-                                
                               
-                              </div>
-                             
+                                <div class="col">{{add.name}}</div>
+                                
+                                <div class="col">
+                                  <input type = "file" placeholder="Enter Certificate Image"  style="color: blueviolet;"
+                                  name ="abc" (change) = "upload_qualification($event,i)">
+                                 
+                                </div>
+
+                                <div class="col">
+                                  <button mat-icon-button (click) ="openImage(add.imageUrl)">
+                                    <mat-icon>add_a_photo</mat-icon>
+                                  </button>
+                                  <!-- <img width="30px" height="20px" class="img-rounded" src= {{add.imageUrl}} alt="No Image Yet">  -->
+                                </div>
+ 
+                            </div>
+                              
+                            <mat-divider></mat-divider>
                               
                             </mat-list-option>
+
                           </mat-selection-list>
+                          <br>
+                          <button mat-button class="colorcode pull-right" (click) = "update_qualifications()">
+                            Update</button>
                     </div>
                 </div>
                 <div class="card">
@@ -136,6 +157,14 @@
                     </div>
                     <div class="card-body">
                         <table class="table table-responsive">
+                          <thead>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>View Image</th>
+                            <th>Change/Upload Image</th>
+                            <th>Delete</th>
+                          </thead>
                           <tbody>
                             
                           <tr *ngFor="let quantity of doctor.workExperience; let i=index" >
@@ -167,7 +196,10 @@
                                
                             </td>
                             <td>
-                              <img width="100px" height="100px" src = {{quantity.imageUrl}} alt="No Image Yet">
+                              <button mat-icon-button (click) ="openImage(quantity.imageUrl)">
+                                <mat-icon>add_a_photo</mat-icon>
+                              </button>
+                              <!-- <img width="100px" height="100px" src = {{quantity.imageUrl}} alt="No Image Yet"> -->
                             </td>
                             <td>
                               <input type="file"  style="color: blueviolet;" (change) = "upload2($event,i)"
@@ -185,6 +217,126 @@
                           Update</button>
                     </div>
                 </div>
+
+                <div  *ngIf  ="check" class="card">
+                  <div class="card-header colorcode" >
+                      <p style="font-size: large;color: white;">
+                          Sponsors
+                      </p>
+                      
+                  </div>
+                  <div class=" card-body ">
+                      <br>
+                    <div class="container">
+
+                      <div class="conatiner row h5">
+                        &nbsp; &nbsp; Current Sponsor:
+                      </div>
+                      <br>
+
+                      <div class="row ">
+                        <!-- <div class="conatiner col h5">
+                          Current Sponsor
+                        </div> -->
+                        <mat-form-field class="col" >
+                          <mat-label>Choose Sponsor</mat-label>
+                          <mat-select name="sponsor" [(ngModel)] ="current_Sponsor">
+                            <mat-option *ngFor  ="let sponsor of sponsors" [value] ="sponsor">
+                              {{sponsor.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+              
+                        <mat-form-field class="col">
+                          <mat-label>Choose Start Date</mat-label>
+              
+                          
+                          <input matInput [matDatepicker]="picker5" name = "sposnorStart" [(ngModel)] ="current_Sponsor.sponsorStartDateo">
+                          <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                          <mat-datepicker #picker5></mat-datepicker> 
+                        </mat-form-field>
+              
+                        <mat-form-field class="col">
+                          <mat-label>Choose End Date</mat-label>
+                          <input matInput [matDatepicker]="picker6" name = "sposnorStart" [(ngModel)] ="current_Sponsor.sponsorEndDateo">
+                          <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                          <mat-datepicker #picker6></mat-datepicker> 
+                        </mat-form-field>
+                        
+                        <div class="col container">
+                          <button mat-button class=" colorcode " (click) = "update_current_sponsor()">
+                            Update</button>
+                        </div>
+
+                        
+  
+                     
+                      </div>
+                    </div>
+                   
+                    <br>
+                    <mat-divider>
+                    </mat-divider>
+                    <br>
+
+                    <div class="container h5 ">
+                      Previous Sponsors :
+                    </div>
+                    <table class=" table table-responsive" >
+                      <thead>
+                        <th>Sponsor</th> <th>Start Date</th> <th>End Date</th> 
+                        <th>Update</th> <th>Delete</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor = "let obj of previous_sponsors">
+                          <td>
+                          <mat-form-field class="col" >
+                            <mat-label>Choose Sponsor</mat-label>
+                            <mat-select name="sponsor" [(ngModel)] ="obj.sponsorHashCode">
+                              <mat-option *ngFor  ="let sponsor of sponsors" [value] ="sponsor.sponsorHashCode">
+                                {{sponsor.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </td>
+                          <td>
+                            <mat-form-field class="col">
+                              <mat-label>Choose Start Date</mat-label>
+                  
+                              
+                              <input matInput [matDatepicker]="picker8" name = "sposnorStart" [(ngModel)] ="obj.sponsorStartDateo">
+                              <mat-datepicker-toggle matSuffix [for]="picker8"></mat-datepicker-toggle>
+                              <mat-datepicker #picker8></mat-datepicker> 
+                            </mat-form-field>
+                          </td>
+                          <td>
+                            <mat-form-field class="col">
+                              <mat-label>Choose End Date</mat-label>
+                  
+                              
+                              <input matInput [matDatepicker]="picker9" name = "sponsorendd" [(ngModel)] ="obj.sponsorEndDateo">
+                              <mat-datepicker-toggle matSuffix [for]="picker9"></mat-datepicker-toggle>
+                              <mat-datepicker #picker9></mat-datepicker> 
+                            </mat-form-field>
+                          </td>
+                          <td>
+                            <button mat-button class=" colorcode " (click) = "update_previous_sponsor(obj)">
+                              Update</button>
+                          </td>
+                          <td>
+                            <button mat-button (click)="delete_sponsor(obj)"  style="color: red;" >
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                     
+                      
+                  </div>
+              </div>
+
+
             </mat-tab>
             <mat-tab label = "Time Slots">
                <div class="card">

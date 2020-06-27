@@ -8,6 +8,7 @@ class Medicine{
   genericName : string;
   quantity : number;
   hash : string;
+  companyName : string;
 }
 @Component({
   selector: 'app-medicine-modal',
@@ -34,7 +35,7 @@ export class MedicineModalComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     if(this.med == undefined)
     this.med = new Medicine();
   }
@@ -42,7 +43,8 @@ export class MedicineModalComponent implements OnInit {
   {
     // checks needed
 
-    if(this.med.name == undefined || this.med.name.length <= 1 || this.med.genericName == undefined || this.med.genericName.length <= 1 || this.med.quantity == undefined)
+    if(this.med.name == undefined || this.med.name.length <= 1 || this.med.genericName == undefined || this.med.genericName.length <= 1 || this.med.quantity == undefined
+    || this.med.companyName == undefined || this.med.companyName.length <= 1)
     {
       this.snackbar.open("All fields are required ","",{
         duration: 2000
@@ -62,7 +64,8 @@ export class MedicineModalComponent implements OnInit {
         'name' : this.med['name'],
         'genericName' : this.med['genericName'],
         'quantity' : this.med['quantity'],
-        'hash' : id
+        'hash' : id,
+        'companyName' : this.med['companyName']
       }
     )
     this.dialoagref.close();

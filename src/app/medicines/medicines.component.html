@@ -22,11 +22,12 @@
                 <mat-divider></mat-divider>
                 <table class="table table-stripped">
                     <thead>
-                        <th>Name</th> <th>Generic Name</th> <th>Quantity</th> <th>Edit</th> <th>Delete</th>
+                        <th>Name</th> <th>Generic Name</th> <th>Company Name</th> <th>Quantity</th> <th>Edit</th> <th>Delete</th>
                     </thead>
                     <tbody>
                         <tr *ngFor = "let med of medicines ; index as i">
-                            <td>{{med.name}}</td><td>{{med.genericName}}</td><td>{{med.quantity}}</td>
+                            <td>{{med.name}}</td><td>{{med.genericName}}</td> <td>{{med.companyName}}</td>
+                            <td>{{med.quantity}}</td>
                             <td>
                                 <button mat-button color="primary" (click) ="edit(med)" class="no-hover-effect">
                                     <mat-icon>edit</mat-icon>

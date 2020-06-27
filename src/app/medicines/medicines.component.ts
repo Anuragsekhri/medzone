@@ -9,6 +9,7 @@ class Medicine{
   genericName : string;
   quantity : number;
   hash : string;
+  companyName : string;
 }
 
 @Component({

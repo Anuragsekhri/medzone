@@ -38,6 +38,7 @@ import { SponsormodalComponent } from './sponsormodal/sponsormodal.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { MedicinesComponent } from './medicines/medicines.component';
 import { MedicineModalComponent } from './medicine-modal/medicine-modal.component';
+import { ViewImageModalComponent } from './view-image-modal/view-image-modal.component';
 
 
 
@@ -88,6 +89,8 @@ import { MedicineModalComponent } from './medicine-modal/medicine-modal.componen
     DoctorInfoModalComponent,
     ShowsessionmodalComponent,
     MedicineModalComponent,
+    ViewImageModalComponent,
+    
     //MedicinesComponent,
 
    
@@ -96,7 +99,7 @@ import { MedicineModalComponent } from './medicine-modal/medicine-modal.componen
 
   ],
   entryComponents:[ AddcitymodalComponent , UserProfileComponent , QualificationmodalComponent , SponsormodalComponent
-    ,AddcategorymodalComponent , DoctorInfoModalComponent , ShowsessionmodalComponent , MedicineModalComponent],
+    ,AddcategorymodalComponent , DoctorInfoModalComponent , ShowsessionmodalComponent , MedicineModalComponent , ViewImageModalComponent],
   providers: [AuthService],
   bootstrap: [AppComponent]
 })
