@@ -5,6 +5,7 @@ import { utils } from 'protractor';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { getGlobalStats } from 'app/getGlobalStats';
 
 @Component({
   selector: 'app-sponsormodal',
@@ -20,7 +21,7 @@ export class SponsormodalComponent implements OnInit {
   spin : boolean;
 
   constructor(private afs : AngularFirestore , private snackbar : MatSnackBar ,private storage : AngularFireStorage ,
-    private ref : MatDialogRef<SponsormodalComponent>
+    private ref : MatDialogRef<SponsormodalComponent> , private global : getGlobalStats
     , @Inject(MAT_DIALOG_DATA) data) {
 
       this.sponsorImageUrl = "";
@@ -75,6 +76,17 @@ export class SponsormodalComponent implements OnInit {
       })
 
       this.spin = false;
+      var obj ={};
+      await this.global.getstats().then( result =>{
+        obj = result;
+      })
+
+      await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main)
+      .doc('globalStatsOnce-'+util.main).set({
+        'noOfCities' : obj['noOfCities'],
+        'noOfSponsors' : obj['noOfSponsors'] + 1,
+        'noOfDoctorCategories' :obj['noOfDoctorCategories']
+      })
 
       
       this.ref.close();

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import * as util from '../util';
+import { getGlobalStats } from 'app/getGlobalStats';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-addcitymodal',
@@ -20,7 +22,8 @@ export class AddcitymodalComponent implements OnInit {
   
 
   citymap : {};
-  constructor(private afs : AngularFirestore ,public dialog : MatDialog) { }
+  constructor(private afs : AngularFirestore ,public dialog : MatDialog , private global_service : getGlobalStats,
+	private snackbar : MatSnackBar) { }
 
   ngOnInit() {
     this.map  = {};
@@ -757,7 +760,7 @@ export class AddcitymodalComponent implements OnInit {
       this.cities = this.map[this.state];
   }
 
-  add()
+ async add()
   {
 	// write to database
 	console.log(this.city +  this.citymap);
@@ -765,12 +768,28 @@ export class AddcitymodalComponent implements OnInit {
 	if(this.citymap[this.city] == undefined)
 	{
 		var id = this.afs.createId();
-		this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).doc(id).set({
+		await this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).doc(id).set({
 			'cityName' : this.city,
 			'cityId' : id,
 			'signal': 0 // by default 0 means active
-		}
-		)
+		});
+		// incrementing 1 in the 
+		var obj ={ };
+		await this.global_service.getstats().then(result =>{
+			obj = result
+		})
+		obj['noOfCities'] = obj['noOfCities'] + 1
+		await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main).doc('globalStatsOnce-'+util.main)
+		.set({
+			'noOfCities' : obj['noOfCities'],
+			'noOfDoctorCategories' : obj['noOfDoctorCategories'],
+			'noOfSponsors' : obj['noOfSponsors']
+		})
+
+		this.snackbar.open("City Added","",{
+			duration : 2000
+		})
+		this.dialog.closeAll();
 	}
 	else{
 		console.log('already there');

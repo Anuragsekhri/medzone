@@ -1,150 +1,227 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import { AngularFirestore } from '@angular/fire/firestore';
+import * as util from '../util';
+import { CityModel } from 'app/Classes/city-model';
+import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
 
+class Obj{
+  categoryname:  string;
+  count : string;
+
+  Obj(categoryname : string , count : string)
+  {
+    this.categoryname = categoryname;
+    this.count = count;
+  }
+}
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
+
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
-  startAnimationForLineChart(chart){
-      let seq: any, delays: any, durations: any;
-      seq = 0;
-      delays = 80;
-      durations = 500;
+  catmap : {};
+  citymap : {};
 
-      chart.on('draw', function(data) {
-        if(data.type === 'line' || data.type === 'area') {
-          data.element.animate({
-            d: {
-              begin: 600,
-              dur: 700,
-              from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-              to: data.path.clone().stringify(),
-              easing: Chartist.Svg.Easing.easeOutQuint
-            }
-          });
-        } else if(data.type === 'point') {
-              seq++;
-              data.element.animate({
-                opacity: {
-                  begin: seq * delays,
-                  dur: durations,
-                  from: 0,
-                  to: 1,
-                  easing: 'ease'
-                }
-              });
-          }
-      });
+  cities : CityModel[];
+  categories : DoctorCategoryModel[];
+  monthly : boolean = true;
 
-      seq = 0;
-  };
-  startAnimationForBarChart(chart){
-      let seq2: any, delays2: any, durations2: any;
+  stats : string ="Monthly";
 
-      seq2 = 0;
-      delays2 = 80;
-      durations2 = 500;
-      chart.on('draw', function(data) {
-        if(data.type === 'bar'){
-            seq2++;
-            data.element.animate({
-              opacity: {
-                begin: seq2 * delays2,
-                dur: durations2,
-                from: 0,
-                to: 1,
-                easing: 'ease'
-              }
-            });
-        }
-      });
+  categoryAppointment : Obj[];
+  categoryDoctor : Obj[];
 
-      seq2 = 0;
-  };
+  cityId : string;
+  date : Date;
+
+  constructor(private afs : AngularFirestore) { }
+
   ngOnInit() {
-      /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
+    this.monthly = true;
+     
+      this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).get().toPromise().then(
+        val =>{
+          this.catmap = {};
+         
+          val.forEach( a =>{
+            const item : any = a.data();
+            this.catmap[item['categoryId']] = item['name'];
+          })
+          console.log(this.catmap);
+          
+        }
+      )
 
-      const dataDailySalesChart: any = {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-          series: [
-              [12, 17, 7, 17, 23, 18, 38]
-          ]
-      };
+      this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).get().toPromise().then(
+        val =>{
+          this.citymap = {};
+          this.cities =[];
+          val.forEach( a =>{
+            const item : any = a.data();
+            var obj = new CityModel();
+            obj = item;
+            this.cities.push(obj);
+            this.citymap[item['cityId']] = item['cityName'];
+          })
+          console.log(this.citymap);
+          
+        }
+      )
 
-     const optionsDailySalesChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-              tension: 0
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-      }
-
-      var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-      this.startAnimationForLineChart(dailySalesChart);
-
-
-      /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-      const dataCompletedTasksChart: any = {
-          labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-          series: [
-              [230, 750, 450, 300, 280, 240, 200, 190]
-          ]
-      };
-
-     const optionsCompletedTasksChart: any = {
-          lineSmooth: Chartist.Interpolation.cardinal({
-              tension: 0
-          }),
-          low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-      }
-
-      var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-      // start animation for the Completed Tasks Chart - Line Chart
-      this.startAnimationForLineChart(completedTasksChart);
-
-
-
-      /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
-      var datawebsiteViewsChart = {
-        labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-        series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-        ]
-      };
-      var optionswebsiteViewsChart = {
-          axisX: {
-              showGrid: false
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-      };
-      var responsiveOptions: any[] = [
-        ['screen and (max-width: 640px)', {
-          seriesBarDistance: 5,
-          axisX: {
-            labelInterpolationFnc: function (value) {
-              return value[0];
-            }
-          }
-        }]
-      ];
-      var websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-      //start animation for the Emails Subscription Chart
-      this.startAnimationForBarChart(websiteViewsChart);
+    
+      
+ 
   }
+
+  change()
+  {
+    if(this.monthly == true)
+    this.stats = "Monthly Stats"
+    else
+    this.stats = "Daily Stats"
+  }
+
+
+
+  async apply(){
+
+    console.log(this.monthly);
+    
+    
+    if(this.monthly == true)
+    {
+      // monthly stats
+      this.categoryAppointment  = [];
+      this.categoryDoctor = [];
+      var str  = "";
+
+      if(this.date.getMonth() + 1 < 10)
+      str = this.date.getUTCFullYear() + '0' + (this.date.getMonth() + 1)
+      else
+      str = this.date.getUTCFullYear() + '0' + (this.date.getMonth() + 1)
+      
+
+      console.log(str);
+      
+      
+      await this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).doc(this.cityId).
+      collection('cityStats-'+util.main)
+      .doc(str).get().toPromise()
+      .then( a => {
+        const modal : any = a.data();
+        this.categoryAppointment =[];
+        this.categoryDoctor =[];
+
+        var categoryAppointment  = modal.categoryAppointment;
+        var categoryDoctor  = modal.categoryDoctor;
+
+        if(categoryAppointment != undefined)
+        {
+        var keys = Object.keys(  modal['categoryAppointment'] );
+        this.categoryAppointment = [];
+        for(let i = 0 ; i < keys.length ; i++)
+        {
+          var obj = new Obj();
+          obj.categoryname = this.catmap[keys[i]];
+          obj.count = categoryAppointment[keys[i]];
+          this.categoryAppointment.push(obj);
+        }
+        }
+
+        if(categoryDoctor != undefined)
+        {
+        var keys2 =  Object.keys( modal['categoryDoctor'] );
+        this.categoryDoctor = [];
+        
+        for(let i = 0 ; i < keys2.length ; i++)
+        {
+          var obj = new Obj();
+          obj.categoryname = this.catmap[keys2[i]];
+          obj.count = categoryDoctor[keys2[i]];
+          this.categoryDoctor.push(obj);
+        }
+        }
+        
+
+        
+
+        
+        
+      })
+    }
+    else{
+      // daily stats
+
+      var m = "";
+      var str = ""+ this.date.getUTCFullYear();
+      if(this.date.getMonth() +1 < 10)
+      {
+        str =str + '0'+ (this.date.getUTCMonth() + 1);
+      }
+      else{
+        str = str +  (this.date.getUTCMonth() + 1);
+      }
+      m = str;
+
+      if(this.date.getDate() < 10)
+      str = str +'0' + this.date.getDate();
+      else
+      str = str + this.date.getDate();
+
+      console.log(str , m);
+      await this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).doc(this.cityId).
+      collection('cityStats-'+util.main).doc(m).collection('cityDailyStats-'+util.main)
+      .doc(str).get().toPromise()
+      .then( a => {
+        const modal : any = a.data();
+        console.log(modal);
+        
+        this.categoryAppointment =[];
+        this.categoryDoctor =[];
+
+        var categoryAppointment  = modal.categoryAppointment;
+        var categoryDoctor  = modal.categoryDoctor;
+
+        if(categoryAppointment != undefined)
+        {
+        var keys = Object.keys(  modal['categoryAppointment'] );
+        this.categoryAppointment = [];
+        for(let i = 0 ; i < keys.length ; i++)
+        {
+          var obj = new Obj();
+          obj.categoryname = this.catmap[keys[i]];
+          obj.count = categoryAppointment[keys[i]];
+          this.categoryAppointment.push(obj);
+        }
+        }
+
+        if(categoryDoctor != undefined)
+        {
+        var keys2 =  Object.keys( modal['categoryDoctor'] );
+        this.categoryDoctor = [];
+        
+        for(let i = 0 ; i < keys2.length ; i++)
+        {
+          var obj = new Obj();
+          obj.categoryname = this.catmap[keys2[i]];
+          obj.count = categoryDoctor[keys2[i]];
+          this.categoryDoctor.push(obj);
+        }
+        }
+2
+        
+        
+      })
+      
+    }
+
+  }
+
+  
 
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore} from '@angular/fire/firestore'
-import { CityModel } from 'app/Classes/city-model';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddcitymodalComponent } from 'app/addcitymodal/addcitymodal.component';
-import * as util from '../util'
+import { CityModel } from 'app/Classes/city-model';
+import { getGlobalStats } from 'app/getGlobalStats';
+import * as util from '../util';
 
 
 @Component({
@@ -13,58 +15,80 @@ import * as util from '../util'
 })
 export class AddCityComponent implements OnInit {
 
-  constructor(private afs  : AngularFirestore , private dialog : MatDialog) { }
+  constructor(private afs: AngularFirestore, private dialog: MatDialog, private global: getGlobalStats
+    , private snackbar : MatSnackBar) { }
 
-    added : CityModel[];
+  added: CityModel[];
 
 
-    addcity()
-    {
-      this.dialog.open(AddcitymodalComponent);
-    }
+  addcity() {
+    this.dialog.open(AddcitymodalComponent);
+  }
 
-    ngOnInit() {
-      
-	 
-      this.added =[];
+  ngOnInit() {
 
-       this.afs.collection(util.main).doc(util.main).collection('cities-' +util.main).snapshotChanges().subscribe( val => {
-         this.added = [];
-         val.forEach( a =>
-         {
-           const item : any = a.payload.doc.data();
-           var obj = new CityModel();
-           obj = item;
-           this.added.push(obj);
-         })
-       })
-   
-   
-       
-     
-   }
+    // this.global.getstats().then( result =>{
+    //   console.log(result);
 
-   check(status)
-   {
-     if(status == 0)
-     return true;
-     else
-     return false;
-   }
+    // });
 
-   call(hash, signal)
-   {
-     var x = -1;
-     if(signal == 0)
-     x = 1;
-     else
-     x = 0;
 
-     this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).doc(hash).update({
-       'signal' : x
-     })
+    this.added = [];
 
-   }
+    this.afs.collection(util.main).doc(util.main).collection('cities-' + util.main).snapshotChanges().subscribe(val => {
+      this.added = [];
+      val.forEach(a => {
+        const item: any = a.payload.doc.data();
+        var obj = new CityModel();
+        obj = item;
+        this.added.push(obj);
+      })
+    })
+
+
+
+
+  }
+
+  check(status) {
+    if (status == 0)
+      return true;
+    else
+      return false;
+  }
+
+  async call(hash, signal) {
+    var x = -1;
+    if (signal == 0)
+      x = 1;
+    else
+      x = 0;
+
+    await this.afs.collection(util.main).doc(util.main).collection('cities-' + util.main).doc(hash).update({
+      'signal': x
+    })
+
+    var count = 0;
+    await this.global.getstats().then(result => {
+      count = result['noOfCities'];
+    })
+    if (x == 0)
+      count = count + 1; /// deactive -> active
+    else
+      count = count - 1;
+
+    await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main)
+    .doc('globalStatsOnce-'+util.main).update({
+      'noOfCities' : count
+    })
+
+
+    this.snackbar.open("City Status Updated","",{
+      duration : 2000
+    })
+
+
+  }
 
 
 }

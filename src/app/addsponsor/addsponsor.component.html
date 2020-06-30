@@ -27,7 +27,10 @@
                         <tr *ngFor = "let add of added , index as i">
                             <td>{{i+1}}</td>
                             <td>
-                                <img width="120px" height="100px" class="img-rounded" src ={{add.sponsorImageUrl}} alt="No Image Yet">
+                                <!-- <img width="120px" height="100px" class="img-rounded" src ={{add.sponsorImageUrl}} alt="No Image Yet"> -->
+                                <button mat-icon-button (click) ="openImage(add.sponsorImageUrl)">
+                                    <mat-icon>add_a_photo</mat-icon>
+                                </button>
                             </td>
                             <td>
                                 {{add.name}}

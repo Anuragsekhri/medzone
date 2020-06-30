@@ -5,6 +5,18 @@
     </div>
     <div class="main-panel">
         <app-navbar></app-navbar>
+
+        <div *ngIf="!isConnected">
+            <div id="overlay">
+            </div>
+            <div class="card" id="connectivity" style="width: 30%;">
+              <div class="card-body">
+                <h5 class="card-title">Attention</h5>
+                <p class="card-text">World's shortest horror story is no internet.</p>
+              </div>
+            </div>
+        </div>
+     
         <router-outlet></router-outlet>
         <div *ngIf="isMaps('maps')">
             <app-footer></app-footer>

@@ -4,6 +4,7 @@ import * as util from '../util'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SponsormodalComponent } from 'app/sponsormodal/sponsormodal.component';
 import { Sponsor } from 'app/Classes/Sponsor';
+import { ViewImageModalComponent } from 'app/view-image-modal/view-image-modal.component';
 
 @Component({
   selector: 'app-addsponsor',
@@ -42,6 +43,15 @@ export class AddsponsorComponent implements OnInit {
     }
     this.dialog.open(SponsormodalComponent,data);
     console.log("open modal to edit the sponsor here")
+  }
+  
+  openImage(imageUrl : string)
+  {
+    var dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      'imageUrl' : imageUrl
+    }
+    this.dialog.open(ViewImageModalComponent, dialogConfig);
   }
 
 }
