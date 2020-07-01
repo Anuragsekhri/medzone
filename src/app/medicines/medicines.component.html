@@ -2,6 +2,17 @@
     <div class="container-fluid">
         <div class="card ">
             <div class="card-header ">
+
+                
+                <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+                
+                &nbsp;
+                <button type="button" class="btn btn-info" (click)="Upload()" >Upload</button>
+
+                <mat-spinner *ngIf = "load">Please Wait ...</mat-spinner>
+                <br>
+                <br>
+                <mat-divider></mat-divider>
                 <mat-nav-list dense class="list-horizontal" *ngFor ="let a of alphabets; index as i">
                   <button mat-icon-button  (click) = "select2(a)"> {{a}}</button> 
                 </mat-nav-list>

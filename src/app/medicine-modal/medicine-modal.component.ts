@@ -43,8 +43,8 @@ export class MedicineModalComponent implements OnInit {
   {
     // checks needed
 
-    if(this.med.name == undefined || this.med.name.length <= 1 || this.med.genericName == undefined || this.med.genericName.length <= 1 || this.med.quantity == undefined
-    || this.med.companyName == undefined || this.med.companyName.length <= 1)
+    if(this.med.name == undefined || this.med.name.length <= 0 || this.med.genericName == undefined || this.med.genericName.length <= 0 || this.med.quantity == undefined
+    || this.med.companyName == undefined || this.med.companyName.length <= 1 )
     {
       this.snackbar.open("All fields are required ","",{
         duration: 2000
@@ -54,17 +54,21 @@ export class MedicineModalComponent implements OnInit {
     {
     if(this.med.hash == undefined)
     {
+    // we are adding medicine
     var string = String( this.med.name.charAt(0) ).toUpperCase();
     console.log(string , this.med);
-    var id = this.afs.createId();
+    var str = "" + this.med['name'] + this.med['genericName'] +this.med['companyName'] + this.med['quantity'];
+    str = str.replace(/\s+/g, '');
+    str = str.toLowerCase();
+    
     await  this.afs.collection(util.main).doc(util.main).collection('medicines-'+util.main)
-    .doc(string).collection('medicines-'+util.main).doc(id).set(
+    .doc(string).collection('medicines-'+util.main).doc(str).set(
       
       {
         'name' : this.med['name'],
         'genericName' : this.med['genericName'],
         'quantity' : this.med['quantity'],
-        'hash' : id,
+        'hash' : str,
         'companyName' : this.med['companyName']
       }
     )
@@ -81,16 +85,19 @@ export class MedicineModalComponent implements OnInit {
     await this.afs.collection(util.main).doc(util.main).collection('medicines-'+util.main)
     .doc(this.earlier).collection('medicines-'+util.main).doc(this.med.hash).delete();
    
-    var id = this.afs.createId();
+    var str = "" + this.med['name'] + this.med['genericName'] +this.med['companyName'] + this.med['quantity'];
+    str = str.replace(/\s+/g, '');
+    str = str.toLowerCase();
     var string = String( this.med.name.charAt(0) ).toUpperCase();
     await  this.afs.collection(util.main).doc(util.main).collection('medicines-'+util.main)
-    .doc(string).collection('medicines-'+util.main).doc(id).set(
+    .doc(string).collection('medicines-'+util.main).doc(str).set(
       
       {
         'name' : this.med['name'],
         'genericName' : this.med['genericName'],
         'quantity' : this.med['quantity'],
-        'hash' : id
+        'companyName' : this.med['companyName'],
+        'hash' : str
       }
     )
 
