@@ -27,6 +27,8 @@ export class getGlobalStats{
                 obj['noOfCities'] = 0;
                 obj['noOfDoctorCategories'] = 0;
                 obj['noOfSponsors'] = 0;
+                obj['noOfDoctors'] = 0;
+                obj['noOfPateints'] = 0;
                
             }
             else
@@ -45,7 +47,21 @@ export class getGlobalStats{
             obj['noOfSponsors'] = 0;
             else
             obj['noOfSponsors'] = item.noOfSponsors ;
+
+            if(item.noOfDoctor == undefined)
+            obj['noOfDoctor'] = 0;
+            else
+            obj['noOfDoctor'] = item.noOfDoctor;
             }
+
+            if(item.noOfPatients == undefined)
+            obj['noOfPatients'] = 0;
+            else
+            obj['noOfPatients'] = item.noOfPatients;
+            
+
+
+
 
         })
 

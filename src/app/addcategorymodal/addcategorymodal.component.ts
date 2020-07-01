@@ -1,9 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as util from '../util'
-import { getGlobalStats } from 'app/getGlobalStats';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import * as util from '../util';
 
 @Component({
   selector: 'app-addcategorymodal',
@@ -14,7 +13,7 @@ export class AddcategorymodalComponent implements OnInit {
 
   cat : string;
   hash : string;
-  constructor(private afs : AngularFirestore , private snackbar : MatSnackBar , private global : getGlobalStats,
+  constructor(private afs : AngularFirestore , private snackbar : MatSnackBar , 
     private ref : MatDialogRef<AddcategorymodalComponent>,
   @Inject(MAT_DIALOG_DATA) data) {
     if(data != undefined)
@@ -34,17 +33,7 @@ export class AddcategorymodalComponent implements OnInit {
       var id  = this.afs.createId();
      
 
-      var obj  ={};
-      await this.global.getstats().then(result =>{
-        obj = result
-      })
-
-      await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main)
-      .doc('globalStatsOnce-'+util.main).set({
-        'noOfCities' : obj['noOfCities'],
-        'noOfDoctorCategories' :obj['noOfDoctorCategories']+1,
-        'noOfSponsors' : obj['noOfSponsors'] 
-      })
+     
 
       await this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).doc(id)
       .set({

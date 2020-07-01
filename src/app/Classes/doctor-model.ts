@@ -14,7 +14,7 @@ export class DoctorModel {
     doctorImage : File;
     doctorImageUrl : string;
     gender : number ; // 0 male , 1 female , 2 other
-    salutation : number ; // 0 Dr , 1 Mr , 2 Ds , 3 Mrs 
+    salutation : number ; // 0 Dr , 1 Mr , 2 Ms , 3 Mrs 
 
     email : string;
     mobile : string

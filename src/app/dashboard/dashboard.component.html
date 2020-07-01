@@ -1,73 +1,89 @@
 <div class="main-content">
   <div class="container-fluid">
       <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="col">
               <div class="card card-stats">
                   <div class="card-header card-header-warning card-header-icon">
                       <div class="card-icon">
                           <i class="material-icons">location_city</i>
                       </div>
                       <p class="card-category">Cities Registered</p>
-                      <h3 class="card-title">3
-                          <small>GB</small>
+                      <h3 class="card-title">{{global['noOfCities']}}
+                          <small></small>
                       </h3>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
                           <i class="material-icons text-danger">warning</i>
-                          <a href="javascript:void(0)">Get More Space...</a>
+                           Active + De-Active...
                       </div>
                   </div>
               </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="col">
               <div class="card card-stats">
                   <div class="card-header card-header-success card-header-icon">
                       <div class="card-icon">
                           <i class="material-icons">person</i>
                       </div>
-                      <p class="card-category">Doctors Assosciated</p>
-                      <h3 class="card-title">45</h3>
+                      <p class="card-category">Sponosors Assosciated</p>
+                      <h3 class="card-title">{{global['noOfSponsors']}}</h3>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
-                          <i class="material-icons">date_range</i> Last 24 Hours
+                          <i class="material-icons">date_range</i> Overall Sponsors 
                       </div>
                   </div>
               </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="col">
               <div class="card card-stats">
                   <div class="card-header card-header-danger card-header-icon">
                       <div class="card-icon">
-                          <i class="material-icons">info_outline</i>
+                          <i class="material-icons">fact_check</i>
                       </div>
-                      <p class="card-category">Appintments Today</p>
-                      <h3 class="card-title">75</h3>
+                      <p class="card-category"> Categories Assocaited</p>
+                      <h3 class="card-title">{{global['noOfDoctorCategories']}}</h3>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
-                          <i class="material-icons">local_offer</i> Tracked from Github
+                          <i class="material-icons">local_offer</i> Specializations..
                       </div>
                   </div>
               </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="col">
               <div class="card card-stats">
                   <div class="card-header card-header-info card-header-icon">
                       <div class="card-icon">
-                          <i class="fa fa-twitter"></i>
+                          <i class="material-icons">medical_services</i>
                       </div>
-                      <p class="card-category">Followers</p>
-                      <h3 class="card-title">+245</h3>
+                      <p class="card-category">Doctors Associated</p>
+                      <h3 class="card-title">{{global['noOfDoctor']}}</h3>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
-                          <i class="material-icons">update</i> Just Updated
+                          <i class="material-icons">update</i> Doctor Count from all Cities
                       </div>
                   </div>
               </div>
           </div>
+          <div class="col">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">supervisor_account</i>
+                    </div>
+                    <p class="card-category">No of Patients Associated</p>
+                    <h3 class="card-title">{{global['noOfPatients']}}</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">update</i> Patients Count from all Cities
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
 
 

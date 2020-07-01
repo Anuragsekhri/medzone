@@ -15,8 +15,8 @@ import * as util from '../util';
 })
 export class AddCityComponent implements OnInit {
 
-  constructor(private afs: AngularFirestore, private dialog: MatDialog, private global: getGlobalStats
-    , private snackbar : MatSnackBar) { }
+  constructor(private afs: AngularFirestore, private dialog: MatDialog,
+     private snackbar : MatSnackBar) { }
 
   added: CityModel[];
 
@@ -67,20 +67,7 @@ export class AddCityComponent implements OnInit {
     await this.afs.collection(util.main).doc(util.main).collection('cities-' + util.main).doc(hash).update({
       'signal': x
     })
-
-    var count = 0;
-    await this.global.getstats().then(result => {
-      count = result['noOfCities'];
-    })
-    if (x == 0)
-      count = count + 1; /// deactive -> active
-    else
-      count = count - 1;
-
-    await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main)
-    .doc('globalStatsOnce-'+util.main).update({
-      'noOfCities' : count
-    })
+ 
 
 
     this.snackbar.open("City Status Updated","",{

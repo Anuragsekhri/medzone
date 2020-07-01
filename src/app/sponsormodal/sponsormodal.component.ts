@@ -77,16 +77,7 @@ export class SponsormodalComponent implements OnInit {
 
       this.spin = false;
       var obj ={};
-      await this.global.getstats().then( result =>{
-        obj = result;
-      })
-
-      await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main)
-      .doc('globalStatsOnce-'+util.main).set({
-        'noOfCities' : obj['noOfCities'],
-        'noOfSponsors' : obj['noOfSponsors'] + 1,
-        'noOfDoctorCategories' :obj['noOfDoctorCategories']
-      })
+      
 
       
       this.ref.close();

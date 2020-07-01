@@ -80,7 +80,7 @@ export class UserProfileComponent implements OnInit {
 
   productForm: FormGroup;
 
-  constructor(private afs : AngularFirestore  , private snackbar : MatSnackBar ,
+  constructor(private afs : AngularFirestore  , private snackbar : MatSnackBar , 
     private functions : AngularFireFunctions, private dialog : MatDialog, private staorage : AngularFireStorage,
     private http: HttpClient , private fb : FormBuilder
     ) {
@@ -344,7 +344,7 @@ export class UserProfileComponent implements OnInit {
   
 
 
-
+    // only phone is being used for auth 
     await this.authenticateEmployee(this.phone, this.email, phoneExists, emailExists).subscribe(async (response) => {
       console.log(response);
 
@@ -371,6 +371,11 @@ export class UserProfileComponent implements OnInit {
         var obj2 = {};
         obj2['cityId'] = this.city.cityId;
         obj2['cityName'] = this.city.cityName;
+
+        var obj3 = {};
+        obj3['categoryId'] = this.cat.categoryId;
+        obj3['name'] = this.cat.name;
+        obj3['categoryDate'] = new Date();
 
         console.log(1);
         var docId = this.afs.createId();  // authid and doc id needs to be different
@@ -403,13 +408,14 @@ export class UserProfileComponent implements OnInit {
             'authId'  : this.authId,
             'doctorId' : docId,
             'qualifications' : this.qualfinal,
-            'category' : this.cat,
+            'category' : obj3,
             'workExperience' : this.experiencesfinal,
             'mobile' : this.phone,
             'currentSponsor' : obj,
             'uniqueId' : Number(this.phone).toString(32)
           }
         )
+
         console.log("user added in database");
         this.loading = false;
         this.dialog.closeAll();

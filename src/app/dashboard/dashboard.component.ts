@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import * as util from '../util';
 import { CityModel } from 'app/Classes/city-model';
 import { DoctorCategoryModel } from 'app/Classes/doctor-category-model';
+import { getGlobalStats } from 'app/getGlobalStats';
 
 class Obj{
   categoryname:  string;
@@ -39,26 +40,33 @@ export class DashboardComponent implements OnInit {
   cityId : string;
   date : Date;
 
-  constructor(private afs : AngularFirestore) { }
+  global : {};
 
-  ngOnInit() {
+  constructor(private afs : AngularFirestore , private stat : getGlobalStats) { }
+
+  async ngOnInit() {
     this.monthly = true;
+
+      this.global ={};
+      await this.stat.getstats().then( result =>{
+        this.global = result;
+        //console.log(this.global);
+        
+      })    
      
-      this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).get().toPromise().then(
-        val =>{
+      await this.afs.collection(util.main).doc(util.main).collection('doctorCategory-'+util.main).get().toPromise().then(val =>{
           this.catmap = {};
          
           val.forEach( a =>{
             const item : any = a.data();
             this.catmap[item['categoryId']] = item['name'];
           })
-          console.log(this.catmap);
+          //console.log(this.catmap);
           
         }
       )
 
-      this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).get().toPromise().then(
-        val =>{
+      await this.afs.collection(util.main).doc(util.main).collection('cities-'+util.main).get().toPromise().then(val =>{
           this.citymap = {};
           this.cities =[];
           val.forEach( a =>{
@@ -68,7 +76,7 @@ export class DashboardComponent implements OnInit {
             this.cities.push(obj);
             this.citymap[item['cityId']] = item['cityName'];
           })
-          console.log(this.citymap);
+         // console.log(this.citymap);
           
         }
       )

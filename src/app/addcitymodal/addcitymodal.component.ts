@@ -22,7 +22,7 @@ export class AddcitymodalComponent implements OnInit {
   
 
   citymap : {};
-  constructor(private afs : AngularFirestore ,public dialog : MatDialog , private global_service : getGlobalStats,
+  constructor(private afs : AngularFirestore ,public dialog : MatDialog , 
 	private snackbar : MatSnackBar) { }
 
   ngOnInit() {
@@ -774,17 +774,7 @@ export class AddcitymodalComponent implements OnInit {
 			'signal': 0 // by default 0 means active
 		});
 		// incrementing 1 in the 
-		var obj ={ };
-		await this.global_service.getstats().then(result =>{
-			obj = result
-		})
-		obj['noOfCities'] = obj['noOfCities'] + 1
-		await this.afs.collection(util.main).doc(util.main).collection('globalStatsOnce-'+util.main).doc('globalStatsOnce-'+util.main)
-		.set({
-			'noOfCities' : obj['noOfCities'],
-			'noOfDoctorCategories' : obj['noOfDoctorCategories'],
-			'noOfSponsors' : obj['noOfSponsors']
-		})
+		
 
 		this.snackbar.open("City Added","",{
 			duration : 2000
